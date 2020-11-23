@@ -1,1 +1,4 @@
 /.vscode
+
+# 輸出資料夾
+/src/.output
