@@ -1,4 +1,4 @@
-from PIL import Image, ImageDraw, ImageFont, JpegImagePlugin
+from PIL import Image, ImageDraw, ImageFilter, ImageFont, JpegImagePlugin
 import os
 import time
 
@@ -19,11 +19,18 @@ inputImg = Image.open(picpath)
 resultImg = Image.new('RGB', inputImg.size, (0, 0, 0, 0)) # RGBA->PNG (Fat)
 resultImg.paste(inputImg, (0,0))
 
+
+
 # 加點字
 # TODO
 draw = ImageDraw.Draw(resultImg)
 myFont = ImageFont.truetype( os.path.join( os.path.dirname(__file__),  r'font/TaipeiSansTCBeta-Regular.ttf') , 200)
 draw.text( xy=(resultImg.width/4, resultImg.height/2), text="業力引爆AAA", fill=(128, 149, 15, 255), font=myFont, anchor='mm' )
+
+# 加點其他酷東西
+resultImg = resultImg.filter(ImageFilter.FIND_EDGES)
+resultImg = resultImg.effect_spread(25)
+
 
 
 # 存圖
@@ -35,5 +42,8 @@ picSavePath += r'output-' + str(time.time()) + r'.jpg'
 
 resultImg.save(picSavePath)
 print("圖片已儲存！ Saved to ", picSavePath)
+
+if debug:
+    resultImg.show()
 
 
