@@ -11,7 +11,7 @@ ADD . /app
 RUN pip install -r requirements.txt
 
 # 讓 連接埠可以從 Docker 容器外部存取
-# EXPOSE 5002
+EXPOSE 5000
 
 # 定義環境變數
 # ENV NAME World

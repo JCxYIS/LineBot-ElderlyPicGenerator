@@ -6,7 +6,7 @@ services:
   mainapp:
     # 設定 src 為專案目錄
     build: ./src
-    # ports: ['5002:5002']
+    ports: ['5000:5000']
 
     # 把 src 跟 docker 內的 app 連動
     volumes: ['./src:/app']
