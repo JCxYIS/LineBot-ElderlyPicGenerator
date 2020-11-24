@@ -1,1 +1,4 @@
 Pillow
+line-bot-sdk
+flask 
+flask-ngrok

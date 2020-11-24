@@ -1,49 +1,64 @@
-from PIL import Image, ImageDraw, ImageFilter, ImageFont, JpegImagePlugin
+import json
+from linebot import LineBotApi
 import os
-import time
-
-######################################################
-
-debug = True
-ver = 'v.201123.4'
-
-######################################################
-
-print('長輩圖生成 Core', ver)
-
-# 讀圖
-picpath = os.path.join( os.path.dirname(__file__),  r'pic/cut19_worldend-2400x1602.jpg') # TODO 
-inputImg = Image.open(picpath)
-
-# 開個新畫布
-resultImg = Image.new('RGB', inputImg.size, (0, 0, 0, 0)) # RGBA->PNG (Fat)
-resultImg.paste(inputImg, (0,0))
+from linebot.webhook import WebhookHandler
+from flask import Flask, request, Response
 
 
+# if __name__ == "__main__":
 
-# 加點字
-# TODO
-draw = ImageDraw.Draw(resultImg)
-myFont = ImageFont.truetype( os.path.join( os.path.dirname(__file__),  r'font/TaipeiSansTCBeta-Regular.ttf') , 200)
-draw.text( xy=(resultImg.width/4, resultImg.height/2), text="業力引爆AAA", fill=(128, 149, 15, 255), font=myFont, anchor='mm' )
+# 載入設定檔
+settings = None
+with open( os.path.join( os.path.dirname(__file__),  r'settings.json') ) as json_file:
+    settings = json.load(json_file)
+    print("設定檔已讀取！")
 
-# 加點其他酷東西
-resultImg = resultImg.filter(ImageFilter.FIND_EDGES)
-resultImg = resultImg.effect_spread(25)
+# Line Bot APIs
+linebot_api = LineBotApi( settings["LineBot_Channel_Access_Token"] )
+webhook_handler = WebhookHandler( settings["LineBot_Channel_Secret"] )
 
-
-
-# 存圖
-picSavePath = os.path.join( os.path.dirname(__file__),  r'.output', '') # 資料夾名稱
-if not os.path.exists( picSavePath ): # 準備好資料夾
-    print("創建輸出資料夾...")
-    os.makedirs( picSavePath )
-picSavePath += r'output-' + str(time.time()) + r'.jpg'
-
-resultImg.save(picSavePath)
-print("圖片已儲存！ Saved to ", picSavePath)
-
-if debug:
-    resultImg.show()
+# Flask Server
+app = Flask(__name__, static_url_path = "/static" , static_folder = "./static/")
 
 
+# main router
+@app.route("/callback", methods=['POST'])
+def callback():
+    # X-Line-Signature header 
+    signature = request.headers['X-Line-Signature']
+
+    # get request body as text
+    body = request.get_data(as_text=True)
+    app.logger.info("Request body: " + body)
+
+    # handle webhook body
+    try:
+        print(body, signature)
+        webhook_handler.handle(body, signature)
+        return 'OK'
+    except:
+        Response.status_code(500)
+        return 'no'
+
+
+from linebot.models import MessageEvent, TextMessage
+
+# onMessage
+@webhook_handler.add(MessageEvent, message=TextMessage)
+def onMessage(event):
+    print(event.message)
+    # 讀取本地檔案，並轉譯成消息
+    # result_message_array =[]
+    # replyJsonPath = event.message.text
+    # result_message_array = detect_json_array_to_new_message_array(replyJsonPath)
+
+    # # 發送
+    # line_bot_api.reply_message(
+    #     event.reply_token,
+    #     result_message_array
+    # )
+
+
+# 伺服器開啟 Link Start!
+if __name__ == "__main__":
+    app.run()
