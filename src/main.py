@@ -1,3 +1,5 @@
+# coding=utf8
+
 import json
 from linebot import LineBotApi
 import os
@@ -5,24 +7,39 @@ from linebot.webhook import WebhookHandler
 from flask import Flask, request, Response
 
 
-# if __name__ == "__main__":
+# ###################################################################################
+
 
 # 載入設定檔
 settings = None
 with open( os.path.join( os.path.dirname(__file__),  r'settings.json') ) as json_file:
     settings = json.load(json_file)
     print("設定檔已讀取！")
+    print(settings)
 
 # Line Bot APIs
 linebot_api = LineBotApi( settings["LineBot_Channel_Access_Token"] )
 webhook_handler = WebhookHandler( settings["LineBot_Channel_Secret"] )
 
 # Flask Server
-app = Flask(__name__, static_url_path = "/static" , static_folder = "./static/")
+app = Flask(__name__)
 
 
-# main router
-@app.route("/callback", methods=['POST'])
+# ###################################################################################
+
+# root route
+@app.route('/')
+def root_route():
+    return Response('There is no html to render, sorry')
+
+# root route
+@app.route('/hi')
+def hi_route():
+    print('hi')
+    return Response('Hi')
+
+# LINE POST router
+@app.route('/callback', methods=['POST'])
 def callback():
     # X-Line-Signature header 
     signature = request.headers['X-Line-Signature']
@@ -61,4 +78,6 @@ def onMessage(event):
 
 # 伺服器開啟 Link Start!
 if __name__ == "__main__":
-    app.run()
+    print("===Link Start!===")  
+    useport = int(os.environ.get("PORT", 5000))    
+    app.run(debug=True, host='0.0.0.0', port=useport)
