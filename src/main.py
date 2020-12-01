@@ -1,5 +1,8 @@
 # coding=utf8
 
+import fileutil
+import pic_handle
+
 import json
 from linebot import LineBotApi
 import os
@@ -7,10 +10,20 @@ from linebot.webhook import WebhookHandler
 from linebot import *
 from flask import Flask, request, Response
 import traceback
+import sys
+import logging
+from linebot.models import *
+# from linebot.models.send_messages import *
+import tempfile
+from flask.helpers import send_from_directory
+
 
 
 # ###################################################################################
 
+
+
+# ###################################################################################
 
 # 載入設定檔
 settings = None
@@ -24,7 +37,7 @@ linebot_api = LineBotApi( settings["LineBot_Channel_Access_Token"] )
 webhook_handler = WebhookHandler( settings["LineBot_Channel_Secret"] )
 
 # Flask Server
-app = Flask(__name__)
+app = Flask(__name__, static_folder='static')
 
 
 # ###################################################################################
@@ -40,6 +53,12 @@ def hi_route():
     print('hi')
     return Response('Hi')
 
+# 靜態檔案資料夾
+@app.route('/static/<path:path>')
+def send_file(path):
+    print('Try to reach file: ', path)
+    return send_from_directory('static', path)
+
 # LINE POST router
 @app.route('/callback', methods=['POST'])
 def callback():
@@ -52,49 +71,113 @@ def callback():
 
     # handle webhook body
     try:
-        print(body, signature)
+        # print(body, signature)
         webhook_handler.handle(body, signature)
         return 'OK'
     except Exception:
         # print(e)
         traceback.print_exc()
+        app.logger.error( traceback.format_exc() )
         return Response('oh no i fucked', 500)
 
 
 ############################################################################################################
 
-
-from linebot.models import *
-# from linebot.models.send_messages import *
-
 # onMessage
 @webhook_handler.add(MessageEvent, message=TextMessage)
 def onMessage(event):
-    # event = MessageEvent(event)
-    print(event.message)
+    # 
+    print("[GET TXT]", event.message)    
+    # print( event.message.type )
 
-    #
-    # event.
-    
     # 製作回覆
-    # message = TextMessage(text="郭")
-    message = ImageSendMessage(
-        original_content_url='https://i.imgur.com/kcYb0PY.gif',
-        preview_image_url='https://mykirito.org/link/cover.jpg'
-    )
+    message = TextSendMessage(text="郭")
+
 
     # 發送回覆
-    linebot_api.reply_message(
-        event.reply_token,
-        message
-    )
+    linebot_api.reply_message(event.reply_token, message)
+    # print("--------------", flush=True)    
 
+# @webhook_handler.add(MessageEvent, message=ImageMessage)
+# def onImgMessage(event):
+#     print("[GET IMG]", event.message)
+
+#     # save_path = fileutil.abs_path('.output/testpic.jpg')
+#     # with open(save_path, 'wb') as fd:
+#     #     for chunk in message_content.iter_content():
+#     #         fd.write(chunk)
+
+#     # 製作回覆
+#     message = ImageSendMessage(
+#         original_content_url='https://i.imgur.com/kcYb0PY.gif',
+#         preview_image_url='https://mykirito.org/link/cover.jpg'
+#     )
+
+#     # 發送回覆
+#     linebot_api.reply_message(event.reply_token, message)
+
+
+@webhook_handler.add(MessageEvent, message=(ImageMessage, VideoMessage, AudioMessage))
+def handle_content_message(event):
+    if isinstance(event.message, ImageMessage):
+        ext = 'jpg'
+    elif isinstance(event.message, VideoMessage):
+        ext = 'mp4'
+    elif isinstance(event.message, AudioMessage):
+        ext = 'm4a'
+    else:
+        return
+
+    # 拿訊息
+    message_content = linebot_api.get_message_content(event.message.id)
+
+    # 下載 (暫暫存)
+    with tempfile.NamedTemporaryFile(dir=fileutil.dir_temp, prefix=ext+'-', delete=False) as tf:
+        for chunk in message_content.iter_content():
+            tf.write(chunk)
+        tempfile_path = tf.name
+    # 移到暫存
+    dist_path = tempfile_path + '.' + ext
+    dist_name = os.path.basename(dist_path)
+    os.rename(tempfile_path, dist_path)
+
+    # 試試看處理圖片
+    
+
+    # 傳送！
+    linebot_api.reply_message(
+        event.reply_token, [
+            # TextSendMessage(text='檔案已儲存'),
+            TextSendMessage(text=request.host_url + os.path.join('static', 'temp', dist_name))
+        ]);
+
+
+
+@webhook_handler.default()
+def default(event):
+    print('[DEFAULT_EVENT_HANDLER] ', event, flush=True)
 
 
 ############################################################################################################
 
+
 # 伺服器開啟 Link Start!
 if __name__ == "__main__":
     print("===== Link Start! =====")  
+
     useport = int(os.environ.get("PORT", 5000))    
+    
+    fileutil.mkdirs(".output")
+    # handler = TimedRotatingFileHandler(
+    #     fileutil.abs_path(".output/linebot.log"), 
+    #     when="D", 
+    #     interval=1, 
+    #     backupCount=15,
+    #     encoding="UTF-8", 
+    #     delay=False, 
+    #     utc=True
+    # )
+    # handler = 
+    # app.logger.addHandler(handler)
+    
     app.run(debug=True, host='0.0.0.0', port=useport)

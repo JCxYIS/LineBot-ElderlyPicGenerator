@@ -1,7 +1,8 @@
 /.vscode
 
-# 輸出資料夾
-/src/.output
+# 
+/src/static
 
 # 設定檔
 # /src/settings.json
+/src/__pycache__
