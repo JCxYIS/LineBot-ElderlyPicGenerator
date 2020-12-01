@@ -59,6 +59,15 @@ def send_file(path):
     print('Try to reach file: ', path)
     return send_from_directory('static', path)
 
+@app.route('/gettemplist')
+def gettemplist():
+    s = ''
+    for root, dirs, files in os.walk(fileutil.dir_temp):
+        for f in files:
+            fullpath = os.path.join(root, f)
+            s += fullpath + '<br>\r\n'
+    return s
+
 # LINE POST router
 @app.route('/callback', methods=['POST'])
 def callback():
