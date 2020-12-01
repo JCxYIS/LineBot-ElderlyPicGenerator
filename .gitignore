@@ -2,4 +2,7 @@
 
 # 輸出資料夾
 /src/.output
+
+
+# 設定檔
 /src/settings.json

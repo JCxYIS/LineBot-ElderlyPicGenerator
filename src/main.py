@@ -32,7 +32,7 @@ app = Flask(__name__)
 def root_route():
     return Response('There is no html to render, sorry')
 
-# root route
+# hi
 @app.route('/hi')
 def hi_route():
     print('hi')
@@ -60,20 +60,22 @@ def callback():
 
 from linebot.models import MessageEvent, TextMessage
 
+
 # onMessage
 @webhook_handler.add(MessageEvent, message=TextMessage)
 def onMessage(event):
     print(event.message)
+    
     # 讀取本地檔案，並轉譯成消息
     # result_message_array =[]
     # replyJsonPath = event.message.text
     # result_message_array = detect_json_array_to_new_message_array(replyJsonPath)
 
-    # # 發送
-    # line_bot_api.reply_message(
-    #     event.reply_token,
-    #     result_message_array
-    # )
+    # 發送
+    linebot_api.reply_message(
+        event.reply_token,
+        TextMessage(text="郭")
+    )
 
 
 # 伺服器開啟 Link Start!
