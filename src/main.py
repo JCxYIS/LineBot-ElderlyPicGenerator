@@ -56,11 +56,12 @@ def hi_route():
 # 靜態檔案資料夾
 @app.route('/static/<path:path>')
 def send_file(path):
-    print('Try to reach file: ', path)
+    print('Try to reach FILE: ', path)
     return send_from_directory('static', path)
 
 @app.route('/gettemplist')
 def gettemplist():
+    print('Try to reach TEMP_LIST')
     s = ''
     for root, dirs, files in os.walk(fileutil.dir_temp):
         for f in files:
