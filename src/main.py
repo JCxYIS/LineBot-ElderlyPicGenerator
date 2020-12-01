@@ -4,7 +4,9 @@ import json
 from linebot import LineBotApi
 import os
 from linebot.webhook import WebhookHandler
+from linebot import *
 from flask import Flask, request, Response
+import traceback
 
 
 # ###################################################################################
@@ -53,33 +55,46 @@ def callback():
         print(body, signature)
         webhook_handler.handle(body, signature)
         return 'OK'
-    except:
-        Response.status_code(500)
-        return 'no'
+    except Exception:
+        # print(e)
+        traceback.print_exc()
+        return Response('oh no i fucked', 500)
 
 
-from linebot.models import MessageEvent, TextMessage
+############################################################################################################
 
+
+from linebot.models import *
+# from linebot.models.send_messages import *
 
 # onMessage
 @webhook_handler.add(MessageEvent, message=TextMessage)
 def onMessage(event):
+    # event = MessageEvent(event)
     print(event.message)
-    
-    # 讀取本地檔案，並轉譯成消息
-    # result_message_array =[]
-    # replyJsonPath = event.message.text
-    # result_message_array = detect_json_array_to_new_message_array(replyJsonPath)
 
-    # 發送
+    #
+    # event.
+    
+    # 製作回覆
+    # message = TextMessage(text="郭")
+    message = ImageSendMessage(
+        original_content_url='https://i.imgur.com/kcYb0PY.gif',
+        preview_image_url='https://mykirito.org/link/cover.jpg'
+    )
+
+    # 發送回覆
     linebot_api.reply_message(
         event.reply_token,
-        TextMessage(text="郭")
+        message
     )
 
 
+
+############################################################################################################
+
 # 伺服器開啟 Link Start!
 if __name__ == "__main__":
-    print("===Link Start!===")  
+    print("===== Link Start! =====")  
     useport = int(os.environ.get("PORT", 5000))    
     app.run(debug=True, host='0.0.0.0', port=useport)
