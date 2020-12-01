@@ -135,20 +135,22 @@ def handle_content_message(event):
     with tempfile.NamedTemporaryFile(dir=fileutil.dir_temp, prefix=ext+'-', delete=False) as tf:
         for chunk in message_content.iter_content():
             tf.write(chunk)
-        tempfile_path = tf.name
-    # 移到暫存
+        tempfile_path = tf.name      
+    # 加上副檔名
     dist_path = tempfile_path + '.' + ext
-    dist_name = os.path.basename(dist_path)
+    # dist_name = os.path.basename(dist_path)
     os.rename(tempfile_path, dist_path)
 
     # 試試看處理圖片
+    new_path = pic_handle.pic_handle(dist_path)
+    new_name = os.path.basename(new_path)
     
 
     # 傳送！
     linebot_api.reply_message(
         event.reply_token, [
             # TextSendMessage(text='檔案已儲存'),
-            TextSendMessage(text=request.host_url + os.path.join('static', 'temp', dist_name))
+            TextSendMessage( text=request.host_url + os.path.join('static', 'temp', new_name) )
         ]);
 
 
