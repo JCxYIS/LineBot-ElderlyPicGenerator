@@ -11,7 +11,6 @@ from linebot import *
 from flask import Flask, request, Response
 import traceback
 import sys
-import logging
 from linebot.models import *
 # from linebot.models.send_messages import *
 import tempfile
