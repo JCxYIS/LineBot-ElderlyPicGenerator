@@ -1,7 +1,7 @@
 /.vscode
 
 # 
-/src/static
+/src/static/temp
 
 # 設定檔
 # /src/settings.json

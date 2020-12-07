@@ -29,3 +29,4 @@ def mkdirs(relative_dir_path):
 # 暫存檔案夾
 dir_temp = abs_path('static/temp')
 mkdirs(dir_temp)
+dir_resp = abs_path('response')
