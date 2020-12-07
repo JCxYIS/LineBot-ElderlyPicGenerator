@@ -2,6 +2,7 @@
 
 import fileutil
 import pic_handle
+import response
 
 import json
 from linebot import LineBotApi
@@ -96,34 +97,17 @@ def callback():
 @webhook_handler.add(MessageEvent, message=TextMessage)
 def onMessage(event):
     # 
-    print("[GET TXT]", event.message)    
+    print("[GET TXT]", event.message, flush=True)    
     # print( event.message.type )
 
     # 製作回覆
-    message = TextSendMessage(text="郭")
+    message = response.generate_response_from_directories( str(event.message.text) )
+    # message = TextSendMessage(text="郭")
 
 
     # 發送回覆
     linebot_api.reply_message(event.reply_token, message)
     # print("--------------", flush=True)    
-
-# @webhook_handler.add(MessageEvent, message=ImageMessage)
-# def onImgMessage(event):
-#     print("[GET IMG]", event.message)
-
-#     # save_path = fileutil.abs_path('.output/testpic.jpg')
-#     # with open(save_path, 'wb') as fd:
-#     #     for chunk in message_content.iter_content():
-#     #         fd.write(chunk)
-
-#     # 製作回覆
-#     message = ImageSendMessage(
-#         original_content_url='https://i.imgur.com/kcYb0PY.gif',
-#         preview_image_url='https://mykirito.org/link/cover.jpg'
-#     )
-
-#     # 發送回覆
-#     linebot_api.reply_message(event.reply_token, message)
 
 
 @webhook_handler.add(MessageEvent, message=(ImageMessage, VideoMessage, AudioMessage))
