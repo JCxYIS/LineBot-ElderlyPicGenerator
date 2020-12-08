@@ -3,6 +3,7 @@
 import fileutil
 import pic_handle
 import response
+import pic_ai
 
 import json
 from linebot import LineBotApi
@@ -135,15 +136,22 @@ def handle_content_message(event):
     os.rename(tempfile_path, dist_path)
 
     # 試試看處理圖片
-    new_path = pic_handle.pic_handle(dist_path)
-    new_name = os.path.basename(new_path)
+    pic_path = pic_ai.detect_objects(dist_path)
+    # pic_path = pic_handle.pic_handle(dist_path)
+    thm_path = pic_handle.createThumb(pic_path)
     
+    # 取得圖片在伺服器位置
+    server_pic_path = fileutil.temp_path_to_server_path(pic_path)
+    server_thm_path = fileutil.temp_path_to_server_path(thm_path)
 
     # 傳送！
     linebot_api.reply_message(
         event.reply_token, [
             # TextSendMessage(text='檔案已儲存'),
-            TextSendMessage( text= )
+            # TextSendMessage( text= )
+            ImageSendMessage(
+                original_content_url=server_pic_path,
+                preview_image_url=server_thm_path)
         ]);
 
 

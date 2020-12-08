@@ -2,3 +2,13 @@ Pillow
 line-bot-sdk
 flask 
 flask-ngrok
+
+# Image AI Requirements
+imageai
+opencv-python
+numpy
+scipy
+matplotlib
+h5py
+tensorflow
+keras

@@ -1,4 +1,4 @@
-from main import request
+
 
 import os
 import tempfile
@@ -36,6 +36,7 @@ def temp_path_to_server_path(absTempPath):
     找出暫存檔案在伺服器裡面的位置 \\ 
     目前不會判斷暫存檔案484真的在暫存資料夾
     """
+    from main import request
     return request.host_url + os.path.join( 'static', 'temp', os.path.basename(absTempPath) )
 
 

@@ -8,12 +8,12 @@ import time
 ######################################################
 
 
-"""
-修圖，最終把圖片儲存在temp，並回傳(絕對)路徑
-"""
 def pic_handle(pic_abspath):
+    """
+    修圖，最終把圖片儲存在temp，並回傳(絕對)路徑
+    """
+
     # 讀圖
-    # TODO 
     # picpath = os.path.join( os.path.dirname(__file__),  r'pic/cut19_worldend-2400x1602.jpg') 
     inputImg = Image.open(pic_abspath)
 
@@ -35,14 +35,27 @@ def pic_handle(pic_abspath):
     resultImg = resultImg.effect_spread(25)
 
 
-
     # 存圖
-    picSavePath = os.path.join( fileutil.dir_temp,  os.path.basename(pic_abspath)+r'-'+str(time.time())+r'.jpg')
+    picSavePath = fileutil.create_random_fileName_in_temp_dir('jpg')
     resultImg.save(picSavePath)
-    print("圖片已儲存！ Saved to ", picSavePath)
+    print("圖片已儲存！ ", picSavePath)
 
     # resultImg.show()
     return picSavePath
 
 
+def createThumb(pic_absPath):
+    """
+    a
+    """
 
+    # 讀圖
+    inputImg = Image.open(pic_absPath)
+
+    # thumbing
+    inputImg.thumbnail( (200, 200) ) # thumbnail() 只能進行等比例縮小，並且是以長、寬中比較小的那一個值為基準。
+    
+    # save
+    picSavePath = fileutil.create_random_fileName_in_temp_dir('jpg')
+    inputImg.save(picSavePath)
+    print("預覽圖已儲存！ ", picSavePath)
