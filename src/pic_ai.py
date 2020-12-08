@@ -4,7 +4,7 @@ from imageai.Detection import ObjectDetection
 import os
 
 # # from https://github.com/OlafenwaMoses/ImageAI/blob/master/imageai/Detection/README.md
-path_ai_model = fileutil.abs_path('ai_model/resnet50_coco_best_v2.0.1.h5')
+path_ai_model = fileutil.abs_path('ai_model/model.h5')
 
 detector = ObjectDetection()
 detector.setModelTypeAsRetinaNet() # 設定model類型

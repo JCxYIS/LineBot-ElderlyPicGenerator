@@ -1,9 +1,16 @@
-FROM python:3.9-slim
+FROM tensorflow/tensorflow:1.14.0-py3  
+# FROM python:3.9-slim
 
 ENV APP_HOME /app
 
 WORKDIR $APP_HOME    
 ADD /src /app
+ADD https://github.com/OlafenwaMoses/ImageAI/releases/download/1.0/yolo-tiny.h5 /app/ai_model/model.h5
+
+RUN apt-get update
+RUN apt-get install sudo
+RUN sudo apt update
+RUN sudo apt install -y libgl1-mesa-glx
 
 # 安裝 requirements.txt 中所列的必要套件
 RUN pip install -r requirements.txt

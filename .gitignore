@@ -6,6 +6,9 @@
 # cache
 /src/__pycache__
 
+# test
+/src/test.py
+
 
 
 # ####################
