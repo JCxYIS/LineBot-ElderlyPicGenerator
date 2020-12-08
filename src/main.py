@@ -143,7 +143,7 @@ def handle_content_message(event):
     linebot_api.reply_message(
         event.reply_token, [
             # TextSendMessage(text='檔案已儲存'),
-            TextSendMessage( text=request.host_url + os.path.join('static', 'temp', new_name) )
+            TextSendMessage( text= )
         ]);
 
 

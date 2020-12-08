@@ -1,5 +1,8 @@
+from main import request
 
 import os
+import tempfile
+import time
 
 
 
@@ -20,6 +23,20 @@ def mkdirs(relative_dir_path):
     """
     if not os.path.exists( abs_path(relative_dir_path) ): # 準備好資料夾
         os.makedirs( relative_dir_path )
+
+def create_random_fileName_in_temp_dir(ext):
+    """
+    在暫存資料夾產生一個隨機檔名
+    ext:副檔名
+    """
+    return os.path.join( dir_temp, str(time.time())+tempfile.NamedTemporaryFile()+"."+ext )
+
+def temp_path_to_server_path(absTempPath):
+    """
+    找出暫存檔案在伺服器裡面的位置 \\ 
+    目前不會判斷暫存檔案484真的在暫存資料夾
+    """
+    return request.host_url + os.path.join( 'static', 'temp', os.path.basename(absTempPath) )
 
 
 ############################################################################################
