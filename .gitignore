@@ -9,11 +9,5 @@
 # test
 /src/test.py
 
-
-
-# ####################
-# 設定檔
-/src/settings.json
-
-# ai model
-/src/ai_model  
+# local docker enviorment var file
+.env

@@ -1,9 +1,9 @@
 # coding=utf8
 
+from settings import LINEBOT_CHANNEL_ACCESS_TOKEN, LINEBOT_CHANNEL_SECRET
 import fileutil
 import pic_handle
 import response
-import pic_ai
 
 import json
 from linebot import LineBotApi
@@ -27,15 +27,15 @@ from flask.helpers import send_from_directory
 # ###################################################################################
 
 # 載入設定檔
-settings = None
-with open( os.path.join( os.path.dirname(__file__),  r'settings.json') ) as json_file:
-    settings = json.load(json_file)
-    print("設定檔已讀取！")
-    print(settings)
+# settings = None
+# with open( os.path.join( os.path.dirname(__file__),  r'settings.json') ) as json_file:
+#     settings = json.load(json_file)
+#     print("設定檔已讀取！")
+#     print(settings)
 
 # Line Bot APIs
-linebot_api = LineBotApi( settings["LineBot_Channel_Access_Token"] )
-webhook_handler = WebhookHandler( settings["LineBot_Channel_Secret"] )
+linebot_api = LineBotApi( LINEBOT_CHANNEL_ACCESS_TOKEN )
+webhook_handler = WebhookHandler( LINEBOT_CHANNEL_SECRET )
 
 # Flask Server
 app = Flask(__name__, static_folder='static')
@@ -60,6 +60,7 @@ def send_file(path):
     print('Try to reach FILE: ', path)
     return send_from_directory('static', path)
 
+# 獲取暫存資料目錄
 @app.route('/gettemplist')
 def gettemplist():
     print('Try to reach TEMP_LIST')
@@ -136,8 +137,7 @@ def handle_content_message(event):
     os.rename(tempfile_path, dist_path)
 
     # 試試看處理圖片
-    pic_path = pic_ai.detect_objects(dist_path)
-    # pic_path = pic_handle.pic_handle(dist_path)
+    pic_path = pic_handle.pic_handle(dist_path)
     thm_path = pic_handle.createThumb(pic_path)
     
     # 取得圖片在伺服器位置
@@ -167,8 +167,7 @@ def default(event):
 # 伺服器開啟 Link Start!
 if __name__ == "__main__":
     print("===== Link Start! =====")  
-
-    useport = int(os.environ.get("PORT", 5000))    
+  
     
     fileutil.mkdirs(".output")
     # handler = TimedRotatingFileHandler(

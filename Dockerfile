@@ -1,6 +1,11 @@
-FROM tensorflow/tensorflow:1.14.0-py3  
-# FROM python:3.9-slim
 
+# Base Image
+# FROM tensorflow/tensorflow:1.14.0-py3  
+FROM python:3.9-slim
+
+LABEL maintainer="JCxYIS"
+
+# 環境變數
 ENV APP_HOME /app
 
 WORKDIR $APP_HOME    
