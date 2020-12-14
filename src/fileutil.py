@@ -38,7 +38,7 @@ def temp_path_to_server_path(absTempPath):
     目前不會判斷暫存檔案484真的在暫存資料夾
     """
     from main import request
-    return request.host_url + os.path.join( 'static', 'temp', os.path.basename(absTempPath) )
+    return (request.host_url + os.path.join( 'static', 'temp', os.path.basename(absTempPath) )).replace('http://', 'https://')
 
 
 ############################################################################################

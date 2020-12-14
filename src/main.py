@@ -143,6 +143,7 @@ def handle_content_message(event):
     # 取得圖片在伺服器位置
     server_pic_path = fileutil.temp_path_to_server_path(pic_path)
     server_thm_path = fileutil.temp_path_to_server_path(thm_path)
+    print('Rerurn pic path=', server_pic_path,'\nthumb path=', server_thm_path, flush=True)
 
     # 傳送！
     linebot_api.reply_message(
