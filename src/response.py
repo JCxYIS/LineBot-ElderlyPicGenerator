@@ -1,14 +1,35 @@
-
-
-import os
 from fileutil import dir_resp
 from linebot.models import *
+import response_templates
+
+import os
+from user import User
 import json
 
+def determine_response(myuser:User, message:str, attachmentPath:str):
+    """
+    製作回覆
+    """
+    if myuser.state == 0:
+        myuser.state = 1
+        return generate_response_from_directories('init')
+    elif myuser.state == 1:
+        if message == '開始製作長輩圖':
+            myuser.state = 100
+            # TODO 使用者選擇耿圖範本
+            return response_templates.flex_acoustic_message('https://www.penzai.com/uploads/img/201912/07/1575687525650046.jpg', '唉呀', '發生錯誤', '此功能還沒實裝st1->100')
+    if myuser.state == 100:
+        # TODO
+        myuser.state = 101
+        return response_templates.flex_acoustic_message('https://storage.googleapis.com/kirito-1585904519813.appspot.com/avatars/oberon3.webp', '唉呀', '發生錯誤', '此功能還沒實裝st100->101')
+    
+
+    return generate_response_from_directories('defaultfallback')
 
 
-# 
-def generate_response_from_directories(reqDirName):
+# ------------------------------------------------------------------------------
+
+def generate_response_from_directories(reqDirName) -> SendMessage:
     """
     從 Response 資料夾抓相應的 Response
     """
@@ -31,7 +52,7 @@ def generate_response_from_directories(reqDirName):
 
     else:
         print("Response Dir Name NOT Exist! ", dirName)
-        return TextSendMessage(text="林北老灰啊聽毋啦")
+        return response_templates.flex_acoustic_message('https://images1.epochhk.com/pictures/116316/806120658181837@1200x1200.jpg', '我聽不懂耶', '你知道嗎', '林北老灰啊聽毋啦')
 
 
 def parse_reply_json(replyJson):
@@ -66,7 +87,7 @@ def parse_reply_json(replyJson):
     elif message_type == 'video':
         returnArray.append(VideoSendMessage.new_from_json_dict(jsonObj))
     else: 
-        raise BaseException("爛json格式")
+        raise BaseException("爛json格式:"+str(message_type))
 
             # 回傳
     return returnArray

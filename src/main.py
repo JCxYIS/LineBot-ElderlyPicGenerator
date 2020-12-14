@@ -116,76 +116,76 @@ def getalluser():
 ############################################################################################################
 
 # onMessage
-@webhook_handler.add(MessageEvent, message=TextMessage)
+@webhook_handler.add(MessageEvent) # , message=TextMessage
 def onMessage(event):
     """
     使用者【文字訊息】事件
     """
     # 
-    print("[GET TXT]", event, flush=True)   
+    print("[GET MSG]", event, flush=True)   
 
-    myuser = user.getuser(event.source.user_id) 
+    # 拿使用者資料、傳入response的參數
+    myuser = user.getuser(event.source.user_id)    
+    msg_message = ''
+    msg_attachment_path = ''    
+
+    # 判斷附件
+    attachmentExt = '' # 附件的附檔明
+    if isinstance(event.message, TextMessage):
+        msg_message = str(event.message.text)
+    elif isinstance(event.message, ImageMessage):
+        attachmentExt = 'jpg'
+    elif isinstance(event.message, VideoMessage):
+        attachmentExt = 'mp4'
+    elif isinstance(event.message, AudioMessage):
+        attachmentExt = 'm4a'
+        
+    # 下載附件
+    # 拿訊息
+    if attachmentExt:
+        message_content = linebot_api.get_message_content(event.message.id)
+        # 下載 (暫暫存)
+        with tempfile.NamedTemporaryFile(dir=fileutil.dir_temp, prefix=attachmentExt+'-', delete=False) as tf:
+            for chunk in message_content.iter_content():
+                tf.write(chunk)
+            tempfile_path = tf.name      
+        # 加上副檔名
+        msg_attachment_path = tempfile_path + '.' + attachmentExt
+        os.rename(tempfile_path, msg_attachment_path)
+
+        # # 試試看處理圖片
+        # pic_path = pic_handle.pic_handle(dist_path)
+        # thm_path = pic_handle.createThumb(pic_path)
+
+        # # 取得圖片在伺服器位置
+        # server_pic_path = fileutil.temp_path_to_server_path(pic_path)
+        # server_thm_path = fileutil.temp_path_to_server_path(thm_path)
+        # print('Rerurn pic path=', server_pic_path,'\nthumb path=', server_thm_path, flush=True)
+
 
     # 製作回覆
-    message = response.generate_response_from_directories( str(event.message.text) )
+    message = response.determine_response(myuser, msg_message, msg_attachment_path)
+    # message = response.generate_response_from_directories( str(event.message.text) )
     # message = TextSendMessage(text="郭")
 
     # 發送回覆
     linebot_api.reply_message(event.reply_token, message)
-    # print("--------------", flush=True)    
-
-
-@webhook_handler.add(MessageEvent, message=(ImageMessage, VideoMessage, AudioMessage))
-def handle_content_message(event):
-    """
-    使用者【圖片/影片/音訊 訊息】事件
-    """
-    # 
-    print("[GET MULTIMEDIA MSG]", event, flush=True) 
-
-    myuser = user.getuser(event.source.user_id) 
-
-    if isinstance(event.message, ImageMessage):
-        ext = 'jpg'
-    elif isinstance(event.message, VideoMessage):
-        ext = 'mp4'
-    elif isinstance(event.message, AudioMessage):
-        ext = 'm4a'
-    else:
-        return
-
-    # 拿訊息
-    message_content = linebot_api.get_message_content(event.message.id)
-
-    # 下載 (暫暫存)
-    with tempfile.NamedTemporaryFile(dir=fileutil.dir_temp, prefix=ext+'-', delete=False) as tf:
-        for chunk in message_content.iter_content():
-            tf.write(chunk)
-        tempfile_path = tf.name      
-    # 加上副檔名
-    dist_path = tempfile_path + '.' + ext
-    # dist_name = os.path.basename(dist_path)
-    os.rename(tempfile_path, dist_path)
-
-    # 試試看處理圖片
-    pic_path = pic_handle.pic_handle(dist_path)
-    thm_path = pic_handle.createThumb(pic_path)
-    
-    # 取得圖片在伺服器位置
-    server_pic_path = fileutil.temp_path_to_server_path(pic_path)
-    server_thm_path = fileutil.temp_path_to_server_path(thm_path)
-    print('Rerurn pic path=', server_pic_path,'\nthumb path=', server_thm_path, flush=True)
+    # print("--------------", flush=True) 
 
     # 傳送！
-    linebot_api.reply_message(
-        event.reply_token, [
-            # TextSendMessage(text='檔案已儲存'),
-            # TextSendMessage( text= )
-            ImageSendMessage(
-                original_content_url=server_pic_path,
-                preview_image_url=server_thm_path)
-        ]);
+    # linebot_api.reply_message(
+    #     event.reply_token, [
+    #         # TextSendMessage(text='檔案已儲存'),
+    #         # TextSendMessage( text= )
+    #         ImageSendMessage(
+    #             original_content_url=server_pic_path,
+    #             preview_image_url=server_thm_path)
+    #     ]);
+    return;
 
+# @webhook_handler.add(MessageEvent, message=(ImageMessage, VideoMessage, AudioMessage))
+# def handle_content_message(event):
+    # ...
 
 @webhook_handler.add(FollowEvent)
 def onFollow(event):
@@ -195,7 +195,7 @@ def onFollow(event):
     print("[OnFOLLOW]", event, flush=True) 
     myuser = user.getuser(event.source.user_id) 
     myuser.state = 1
-    message = response.generate_response_from_directories('onFollow')
+    message = response.generate_response_from_directories('init')
     linebot_api.reply_message(event.reply_token, message)
 
 
