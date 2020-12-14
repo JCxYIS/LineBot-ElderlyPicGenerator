@@ -1,0 +1,34 @@
+{
+    "type": "text",
+    "text": "Select your favorite food category or send me your location!",
+    "quickReply": { 
+      "items": [
+        {
+          "type": "action", 
+          "imageUrl": "https://camo.githubusercontent.com/7dc30312fe4498edb5cd8ec472ead009fab18c26df1378ed982ba9cb4889d3b2/68747470733a2f2f692e696d6775722e636f6d2f65687a5a6a79312e6a7067",
+          "action": {
+            "type": "message",
+            "label": "哈哈哈",
+            "text": "Haha"
+          }
+        },
+        {
+          "type": "action",
+          "imageUrl": "https://storage.googleapis.com/kirito-1585904519813.appspot.com/avatars/oberon3.webp",
+          "action": {
+            "type":"postback",
+            "label":"嘿嘿嘿",
+            "data":"action=buy&itemid=111",
+            "text":"Buy"
+          }
+        },
+        {
+          "type": "action", 
+          "action": {
+            "type": "location",
+            "label": "Send location"
+          }
+        }
+      ]
+    }
+  }

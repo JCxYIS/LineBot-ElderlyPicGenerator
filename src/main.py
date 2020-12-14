@@ -70,7 +70,7 @@ def callback():
 
     # get request body as text
     body = request.get_data(as_text=True)
-    app.logger.info("Request body: " + body)
+    # app.logger.info("Request body: " + body)
 
     # handle webhook body
     try:
@@ -197,7 +197,17 @@ def onFollow(event):
     myuser.state = 1
     message = response.generate_response_from_directories('onFollow')
     linebot_api.reply_message(event.reply_token, message)
-    
+
+
+@webhook_handler.add(PostbackEvent)
+def onPostback(event):
+    """
+    使用者【PostBack】事件
+    """
+    print("[onPostback]", event, flush=True) 
+    myuser = user.getuser(event.source.user_id) 
+    # TODO
+
 
 @webhook_handler.default()
 def default(event):

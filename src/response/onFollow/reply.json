@@ -1,4 +1,26 @@
 {
     "type": "text",
     "text": "歡迎使用長輩圖生成器！開始你的旅程吧",
+    "quickReply": { 
+        "items": [
+          {
+            "type": "action",
+            "imageUrl": "https://storage.googleapis.com/kirito-1585904519813.appspot.com/avatars/kuradeel2.webp",
+            "action": {
+              "type": "message",
+              "label": "開始製作長輩圖",
+              "text": "Sushi"
+            }
+          },
+          {
+            "type": "action",
+            "imageUrl": "https://storage.googleapis.com/kirito-1585904519813.appspot.com/avatars/oberon3.webp",
+            "action": {
+              "type": "message",
+              "label": "更多功能敬請期待！",
+              "text": "Tempura"
+            }
+          }
+        ]
+      }
 }
