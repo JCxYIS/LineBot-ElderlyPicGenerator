@@ -32,7 +32,7 @@ def pic_handle(pic_abspath):
     # 加點其他酷東西
     # TODO
     # resultImg = resultImg.filter(ImageFilter.CONTOUR)
-    resultImg = resultImg.effect_spread(25)
+    # resultImg = resultImg.effect_spread(25)
 
 
     # 存圖

@@ -1,6 +1,6 @@
 # coding=utf8
 
-from settings import LINEBOT_CHANNEL_ACCESS_TOKEN, LINEBOT_CHANNEL_SECRET
+from settings import LINEBOT_CHANNEL_ACCESS_TOKEN, LINEBOT_CHANNEL_SECRET, USE_PORT
 import fileutil
 import pic_handle
 import response
@@ -182,4 +182,4 @@ if __name__ == "__main__":
     # handler = 
     # app.logger.addHandler(handler)
     
-    app.run(debug=True, host='0.0.0.0', port=useport)
+    app.run(debug=True, host='0.0.0.0', port=USE_PORT)

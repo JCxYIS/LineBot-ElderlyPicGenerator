@@ -10,12 +10,7 @@ ENV APP_HOME /app
 
 WORKDIR $APP_HOME    
 ADD /src /app
-ADD https://github.com/OlafenwaMoses/ImageAI/releases/download/1.0/yolo-tiny.h5 /app/ai_model/model.h5
-
-RUN apt-get update
-RUN apt-get install sudo
-RUN sudo apt update
-RUN sudo apt install -y libgl1-mesa-glx
+# ADD https://github.com/OlafenwaMoses/ImageAI/releases/download/1.0/yolo-tiny.h5 /app/ai_model/model.h5
 
 # 安裝 requirements.txt 中所列的必要套件
 RUN pip install -r requirements.txt
