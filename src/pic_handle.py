@@ -26,7 +26,7 @@ def pic_handle(pic_abspath):
     # 加點字
     # TODO
     draw = ImageDraw.Draw(resultImg)
-    myFont = ImageFont.truetype( os.path.join( os.path.dirname(__file__),  r'font/TaipeiSansTCBeta-Regular.ttf') , 200)
+    myFont = ImageFont.truetype( os.path.join(fileutil.dir_fonts ,  r'TaipeiSansTCBeta-Regular.ttf') , 200)
     draw.text( xy=(resultImg.width/4, resultImg.height/2), text="業力引爆AAA", fill=(128, 149, 15, 255), font=myFont, anchor='mm' )
 
     # 加點其他酷東西
@@ -59,3 +59,4 @@ def createThumb(pic_absPath):
     picSavePath = fileutil.create_random_fileName_in_temp_dir('jpg')
     inputImg.save(picSavePath)
     print("預覽圖已儲存！ ", picSavePath)
+    return picSavePath

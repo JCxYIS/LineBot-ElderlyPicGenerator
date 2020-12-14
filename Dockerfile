@@ -11,6 +11,7 @@ ENV APP_HOME /app
 WORKDIR $APP_HOME    
 ADD /src /app
 # ADD https://github.com/OlafenwaMoses/ImageAI/releases/download/1.0/yolo-tiny.h5 /app/ai_model/model.h5
+ADD https://github.com/JCxYIS/LineBot-ElderlyPicGenerator/raw/main/fonts/TaipeiSansTCBeta-Regular.ttf /app/static/fonts/TaipeiSansTCBeta-Regular.ttf
 
 # 安裝 requirements.txt 中所列的必要套件
 RUN pip install -r requirements.txt

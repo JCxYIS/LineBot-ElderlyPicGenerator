@@ -3,6 +3,7 @@
 import os
 import tempfile
 import time
+import uuid
 
 
 
@@ -29,7 +30,7 @@ def create_random_fileName_in_temp_dir(ext):
     在暫存資料夾產生一個隨機檔名
     ext:副檔名
     """
-    return os.path.join( dir_temp, str(time.time())+tempfile.NamedTemporaryFile()+"."+ext )
+    return os.path.join( dir_temp, str(time.time())+str(uuid.uuid4())+"."+ext )
 
 def temp_path_to_server_path(absTempPath):
     """
@@ -50,3 +51,4 @@ def temp_path_to_server_path(absTempPath):
 dir_temp = abs_path('static/temp')
 mkdirs(dir_temp)
 dir_resp = abs_path('response')
+dir_fonts = abs_path('static/fonts')
