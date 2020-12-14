@@ -4,6 +4,7 @@ from settings import LINEBOT_CHANNEL_ACCESS_TOKEN, LINEBOT_CHANNEL_SECRET, USE_P
 import fileutil
 import pic_handle
 import response
+import user
 
 import json
 from linebot import LineBotApi
@@ -100,12 +101,10 @@ def callback():
 def onMessage(event):
     # 
     print("[GET TXT]", event.message, flush=True)    
-    # print( event.message.type )
 
     # 製作回覆
     message = response.generate_response_from_directories( str(event.message.text) )
     # message = TextSendMessage(text="郭")
-
 
     # 發送回覆
     linebot_api.reply_message(event.reply_token, message)
@@ -114,6 +113,9 @@ def onMessage(event):
 
 @webhook_handler.add(MessageEvent, message=(ImageMessage, VideoMessage, AudioMessage))
 def handle_content_message(event):
+    # 
+    print("[GET MULTIMEDIA MSG]", flush=True) 
+
     if isinstance(event.message, ImageMessage):
         ext = 'jpg'
     elif isinstance(event.message, VideoMessage):
