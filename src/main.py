@@ -7,14 +7,14 @@ import response
 import user
 
 import json
-from linebot import LineBotApi
 import os
+from linebot import LineBotApi
 from linebot.webhook import WebhookHandler
+from linebot.models import *
 from linebot import *
 from flask import Flask, request, Response
 import traceback
 import sys
-from linebot.models import *
 # from linebot.models.send_messages import *
 import tempfile
 from flask.helpers import send_from_directory
@@ -87,6 +87,34 @@ import test
 
 ############################################################################################################
 
+@app.route('/gettemplist')
+def gettemplist():
+    """
+    獲取暫存資料目錄
+    """
+    print('===[DEBUG] Try to reach TEMP_LIST===')
+    s = ''
+    for root, dirs, files in os.walk(fileutil.dir_temp):
+        for f in files:
+            fullpath = os.path.join(root, f)
+            s += fullpath + '<br>\r\n'
+    return s
+
+@app.route('/getalluser')
+def getalluser():
+    """
+    獲取所有user資料
+    """
+    print('===[DEBUG] Get All User===')
+    s = ''
+    for u in user.userdb:
+        print(u.__dict__)
+        s += str(u.__dict__) + '\n'
+    print('=========', flush=True)
+    return s
+
+############################################################################################################
+
 # onMessage
 @webhook_handler.add(MessageEvent, message=TextMessage)
 def onMessage(event):
@@ -94,7 +122,9 @@ def onMessage(event):
     使用者【文字訊息】事件
     """
     # 
-    print("[GET TXT]", event.message, flush=True)    
+    print("[GET TXT]", event, flush=True)   
+
+    myuser = user.getuser(event.source.user_id) 
 
     # 製作回覆
     message = response.generate_response_from_directories( str(event.message.text) )
@@ -111,7 +141,9 @@ def handle_content_message(event):
     使用者【圖片/影片/音訊 訊息】事件
     """
     # 
-    print("[GET MULTIMEDIA MSG]", flush=True) 
+    print("[GET MULTIMEDIA MSG]", event, flush=True) 
+
+    myuser = user.getuser(event.source.user_id) 
 
     if isinstance(event.message, ImageMessage):
         ext = 'jpg'
@@ -160,7 +192,8 @@ def onFollow(event):
     """
     使用者【關注】事件
     """
-    myuser = user.getuser()
+    print("[OnFOLLOW]", event, flush=True) 
+    myuser = user.getuser(event.source.user_id) 
     myuser.state = 1
     message = response.generate_response_from_directories('onFollow')
     linebot_api.reply_message(event.reply_token, message)

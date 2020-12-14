@@ -6,8 +6,6 @@
 # cache
 /src/__pycache__
 
-# test
-/src/test.py
 
 # local docker enviorment var file
 .env
