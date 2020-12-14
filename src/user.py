@@ -2,7 +2,7 @@
 儲存user的資料
 """
 
-__userdb = []
+userdb = []
 # userdb
 
 
@@ -10,19 +10,23 @@ class User:
     """
     user的資料
     """
-    id = ''
+    uid = ''
     state = 0
-
-    def __init__(self, id):
+    def __init__(self, userid):
         super().__init__()
-        self.id = id
+        self.uid = userid
+        self.state = 0
         
 
 
 def getuser(userid):
-    for u in __userdb:
-        if u.id == userid:
+    """
+    由userid取得user資料，沒有就建立一個
+    """
+    for u in userdb:
+        if u.uid == userid:
             return u
-
     print("使用者",userid,"尚未建立資料，現在建立。")
-    return User(id)
+    newuser = User(userid)
+    userdb.append(newuser)
+    return newuser

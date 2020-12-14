@@ -61,16 +61,6 @@ def send_file(path):
     print('Try to reach FILE: ', path)
     return send_from_directory('static', path)
 
-# 獲取暫存資料目錄
-@app.route('/gettemplist')
-def gettemplist():
-    print('Try to reach TEMP_LIST')
-    s = ''
-    for root, dirs, files in os.walk(fileutil.dir_temp):
-        for f in files:
-            fullpath = os.path.join(root, f)
-            s += fullpath + '<br>\r\n'
-    return s
 
 # LINE POST router
 @app.route('/callback', methods=['POST'])
@@ -93,12 +83,16 @@ def callback():
         app.logger.error( traceback.format_exc() )
         return Response('oh no i fucked', 500)
 
+import test
 
 ############################################################################################################
 
 # onMessage
 @webhook_handler.add(MessageEvent, message=TextMessage)
 def onMessage(event):
+    """
+    使用者【文字訊息】事件
+    """
     # 
     print("[GET TXT]", event.message, flush=True)    
 
@@ -113,6 +107,9 @@ def onMessage(event):
 
 @webhook_handler.add(MessageEvent, message=(ImageMessage, VideoMessage, AudioMessage))
 def handle_content_message(event):
+    """
+    使用者【圖片/影片/音訊 訊息】事件
+    """
     # 
     print("[GET MULTIMEDIA MSG]", flush=True) 
 
@@ -158,9 +155,22 @@ def handle_content_message(event):
         ]);
 
 
+@webhook_handler.add(FollowEvent)
+def onFollow(event):
+    """
+    使用者【關注】事件
+    """
+    myuser = user.getuser()
+    myuser.state = 1
+    message = response.generate_response_from_directories('onFollow')
+    linebot_api.reply_message(event.reply_token, message)
+    
 
 @webhook_handler.default()
 def default(event):
+    """
+    使用者【其他】事件
+    """
     print('[DEFAULT_EVENT_HANDLER] ', event, flush=True)
 
 

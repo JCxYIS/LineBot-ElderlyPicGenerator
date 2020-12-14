@@ -6,6 +6,7 @@ from linebot.models import *
 import json
 
 
+
 # 
 def generate_response_from_directories(reqDirName):
     """
