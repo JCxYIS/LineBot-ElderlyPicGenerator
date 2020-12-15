@@ -6,6 +6,7 @@ import os
 from user import User
 import json
 
+
 def determine_response(myuser:User, message:str, attachmentPath:str):
     """
     製作回覆
@@ -16,14 +17,14 @@ def determine_response(myuser:User, message:str, attachmentPath:str):
     elif myuser.state == 1:
         if message == '開始製作長輩圖':
             myuser.state = 100
-            # TODO 使用者選擇耿圖範本
-            return response_templates.flex_acoustic_message('https://www.penzai.com/uploads/img/201912/07/1575687525650046.jpg', '唉呀', '發生錯誤', '此功能還沒實裝st1->100')
+            return response_templates.img_cor_select_pic() # TODO 使用者選擇耿圖範本
     if myuser.state == 100:
         # TODO
-        myuser.state = 101
-        return response_templates.flex_acoustic_message('https://storage.googleapis.com/kirito-1585904519813.appspot.com/avatars/oberon3.webp', '唉呀', '發生錯誤', '此功能還沒實裝st100->101')
+        if message == 'goupload':
+            myuser.state = 101
+        return response_templates.flex_acoustic_message('https://www.penzai.com/uploads/img/201912/07/1575687525650046.jpg', '唉呀', '發生錯誤', '此功能還沒實裝st100->101')
     
-
+    # default fallback
     return generate_response_from_directories('defaultfallback')
 
 

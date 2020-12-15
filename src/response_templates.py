@@ -107,7 +107,7 @@ def img_cor_select_pic():
             "type": "image_carousel",
             "columns": [
               {
-                "imageUrl": "PROVIDE_URL_FROM_YOUR_SERVER",
+                "imageUrl": "https://github.com/JCxYIS/LineBot-ElderlyPicGenerator/raw/main/samplepics/366321.jpg",
                 "action": {
                   "type": "message",
                   "label": "上傳你自己的圖片！",
@@ -115,7 +115,7 @@ def img_cor_select_pic():
                 }
               },
               {
-                "imageUrl": "PROVIDE_URL_FROM_YOUR_SERVER",
+                "imageUrl": "https://github.com/JCxYIS/LineBot-ElderlyPicGenerator/raw/main/samplepics/366325.jpg",
                 "action": {
                   "type": "postback",
                   "label": "就決定是你了!",
@@ -124,7 +124,7 @@ def img_cor_select_pic():
                 }
               },
               {
-                "imageUrl": "PROVIDE_URL_FROM_YOUR_SERVER",
+                "imageUrl": "https://github.com/JCxYIS/LineBot-ElderlyPicGenerator/raw/main/samplepics/366326.jpg",
                 "action": {
                   "type": "postback",
                   "label": "就決定是你了!",
@@ -181,7 +181,7 @@ def img_cor_select_pic():
                 }
               },
               {
-                "imageUrl": "https://storage.googleapis.com/kirito-1585904519813.appspot.com/avatars/oberon3.webp",
+                "imageUrl": "https://github.com/JCxYIS/LineBot-ElderlyPicGenerator/raw/main/samplepics/366329.jpg",
                 "action": {
                   "type": "message",
                   "label": "找不到想要的圖？下一頁！",
