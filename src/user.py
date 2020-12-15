@@ -12,6 +12,10 @@ class User:
     """
     uid = ''
     state = 0
+
+    edit_pic_filename = ''
+    edit_pic_layerArray = []
+
     def __init__(self, userid):
         super().__init__()
         self.uid = userid

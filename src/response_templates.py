@@ -1,4 +1,4 @@
-from linebot.models import FlexSendMessage
+from linebot.models import *
 
 def flex_acoustic_message(bgUrl:str, msg:str, submsg:str, subsubmsg:str):
     content = {
@@ -97,3 +97,97 @@ def flex_acoustic_message(bgUrl:str, msg:str, submsg:str, subsubmsg:str):
             }            
     msg = FlexSendMessage(alt_text=msg, contents=content)
     return msg            
+
+
+#####################################################################################################################
+
+
+def img_cor_select_pic():
+  content = {
+            "type": "image_carousel",
+            "columns": [
+              {
+                "imageUrl": "PROVIDE_URL_FROM_YOUR_SERVER",
+                "action": {
+                  "type": "message",
+                  "label": "上傳你自己的圖片！",
+                  "text": "goupload"
+                }
+              },
+              {
+                "imageUrl": "PROVIDE_URL_FROM_YOUR_SERVER",
+                "action": {
+                  "type": "postback",
+                  "label": "就決定是你了!",
+                  "text": "pic_2",
+                  "data": "pic_3JPG"
+                }
+              },
+              {
+                "imageUrl": "PROVIDE_URL_FROM_YOUR_SERVER",
+                "action": {
+                  "type": "postback",
+                  "label": "就決定是你了!",
+                  "text": "pic_3",
+                  "data": "pic_3"
+                }
+              },
+              {
+                "imageUrl": "https://storage.googleapis.com/kirito-1585904519813.appspot.com/avatars/oberon3.webp",
+                "action": {
+                  "type": "message",
+                  "label": "就決定是你了!",
+                  "text": "動作 4"
+                }
+              },
+              {
+                "imageUrl": "https://storage.googleapis.com/kirito-1585904519813.appspot.com/avatars/oberon3.webp",
+                "action": {
+                  "type": "message",
+                  "label": "就決定是你了!",
+                  "text": "動作 5"
+                }
+              },
+              {
+                "imageUrl": "https://storage.googleapis.com/kirito-1585904519813.appspot.com/avatars/oberon3.webp",
+                "action": {
+                  "type": "message",
+                  "label": "就決定是你了!",
+                  "text": "動作 6"
+                }
+              },
+              {
+                "imageUrl": "https://storage.googleapis.com/kirito-1585904519813.appspot.com/avatars/oberon3.webp",
+                "action": {
+                  "type": "message",
+                  "label": "就決定是你了!",
+                  "text": "動作 7"
+                }
+              },
+              {
+                "imageUrl": "https://storage.googleapis.com/kirito-1585904519813.appspot.com/avatars/oberon3.webp",
+                "action": {
+                  "type": "message",
+                  "label": "就決定是你了!",
+                  "text": "動作 8"
+                }
+              },
+              {
+                "imageUrl": "https://storage.googleapis.com/kirito-1585904519813.appspot.com/avatars/oberon3.webp",
+                "action": {
+                  "type": "message",
+                  "label": "就決定是你了!",
+                  "text": "動作 9"
+                }
+              },
+              {
+                "imageUrl": "https://storage.googleapis.com/kirito-1585904519813.appspot.com/avatars/oberon3.webp",
+                "action": {
+                  "type": "message",
+                  "label": "找不到想要的圖？下一頁！",
+                  "text": "動作 10"
+                }
+              }
+            ]
+          }
+  return TemplateSendMessage(alt_text='選擇功能(去用智會手ㄐ啦)', template=content)
