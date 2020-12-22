@@ -164,7 +164,7 @@ def onMessage(event):
 
 
     # 製作回覆
-    message = response.determine_response(myuser, msg_message, msg_attachment_path)
+    message = response.determine_response(myuser, msg_message, msg_attachment_path, attachmentExt)
     # message = response.generate_response_from_directories( str(event.message.text) )
     # message = TextSendMessage(text="郭")
 

@@ -1,7 +1,15 @@
 from linebot.models import *
 
-def flex_acoustic_message(bgUrl:str, msg:str, submsg:str, subsubmsg:str):
-    content = {
+def flex_acoustic_message(msg:str, submsg:str, subsubmsg:str, bgUrl:str=''):
+  """
+  製作非常漂亮的訊息
+  如果沒有bgurl，會隨機產生長輩愛用bg
+  """
+  if not bgUrl:
+    # TODO
+    bgUrl = 'https://www.penzai.com/uploads/img/201912/07/1575687525650046.jpg'
+
+  content = {
                 "type": "bubble",
                 "body": {
                   "type": "box",
@@ -95,8 +103,8 @@ def flex_acoustic_message(bgUrl:str, msg:str, submsg:str, subsubmsg:str):
                   "paddingAll": "0px"
                 }
             }            
-    msg = FlexSendMessage(alt_text=msg, contents=content)
-    return msg            
+  msg = FlexSendMessage(alt_text=msg, contents=content)
+  return msg            
 
 
 #####################################################################################################################

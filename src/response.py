@@ -1,4 +1,4 @@
-from fileutil import dir_resp
+from fileutil import dir_resp, temp_path_to_server_path
 from linebot.models import *
 import response_templates
 
@@ -7,25 +7,46 @@ from user import User
 import json
 
 
-def determine_response(myuser:User, message:str, attachmentPath:str):
+def determine_response(myuser:User, message:str, attachmentPath:str, attachmentExt:str):
     """
     製作回覆
+    myuser: my user
+    meesage: message, may be ''
+    attachmentPath: local abs path, may be ''
+    attachmentExt: extension of attachment, maybe ''
     """
-    if myuser.state == 0:
+    # 起始
+    if myuser.state == 0: 
         myuser.state = 1
         return generate_response_from_directories('init')
+
+    # 開始關注
     elif myuser.state == 1:
         if message == '開始製作長輩圖':
             myuser.state = 100
             return response_templates.img_cor_select_pic() # TODO 使用者選擇耿圖範本
-    if myuser.state == 100:
-        # TODO
-        if message == 'goupload':
-            myuser.state = 101
-        return response_templates.flex_acoustic_message('https://www.penzai.com/uploads/img/201912/07/1575687525650046.jpg', '唉呀', '發生錯誤', '此功能還沒實裝st100->101')
     
+    # 開始製作長輩圖
+    elif myuser.state == 100:
+        if message == 'goupload':
+            myuser.state = 110
+            return response_templates.flex_acoustic_message('開始上傳', '來', '給我你要修圖的圖片')       
+        # TODO selected pic 
+    
+    # 上傳圖片
+    elif myuser.state == 101:
+        if attachmentPath and attachmentExt=='jpg':
+            myuser.edit_pic_filename = attachmentPath
+            myuser.state = 110
+            return response_templates.flex_acoustic_message( 
+                '上傳成功', '好耶', '接下來來修圖吧！', temp_path_to_server_path(attachmentPath) )
+    
+    # 選擇功能
+    elif myuser.state == 110:
+        return
+
     # default fallback
-    return generate_response_from_directories('defaultfallback')
+    return generate_response_from_directories('default')
 
 
 # ------------------------------------------------------------------------------
@@ -53,7 +74,7 @@ def generate_response_from_directories(reqDirName) -> SendMessage:
 
     else:
         print("Response Dir Name NOT Exist! ", dirName)
-        return response_templates.flex_acoustic_message('https://images1.epochhk.com/pictures/116316/806120658181837@1200x1200.jpg', '我聽不懂耶', '你知道嗎', '林北老灰啊聽毋啦')
+        return response_templates.flex_acoustic_message('我聽不懂耶', '你是不是亂搞', '林北老灰啊聽毋啦')
 
 
 def parse_reply_json(replyJson):
