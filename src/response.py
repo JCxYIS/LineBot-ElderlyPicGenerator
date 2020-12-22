@@ -41,9 +41,9 @@ def determine_response(myuser:User, message:str, attachmentPath:str, attachmentE
             return response_templates.flex_acoustic_message( 
                 '上傳成功', '好耶', '接下來來修圖吧！', temp_path_to_server_path(attachmentPath) )
     
-    # 選擇功能
-    elif myuser.state == 110:
-        return
+    # TODO 選擇功能
+    # elif myuser.state == 110:
+    #     return
 
     # default fallback
     return generate_response_from_directories('default')

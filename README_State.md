@@ -17,14 +17,14 @@
     - TODO
     - finish -> 150
 - `111`：輸入文字
-    - (有文字) -> 112
+    - TODO (有文字) -> 112
 - `112`：調整文字位置 (顯示圖文選單 上下左右+完成+取消)  
-    - up
-    - down
-    - left
-    - right
-    - done
-    - cancel
+    - TODO up
+    - TODO down
+    - TODO left
+    - TODO right
+    - TODO done
+    - TODO cancel
 - `150`：完成 (QuickReply：直接完成/分享)
     - end
     - share
