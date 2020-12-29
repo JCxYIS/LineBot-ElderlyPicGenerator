@@ -8,9 +8,9 @@ import time
 ######################################################
 
 
-def pic_handle(pic_abspath):
+def pic_handle(pic_abspath:str, actions:list[Pic_Edition]) :
     """
-    修圖，最終把圖片儲存在temp，並回傳(絕對)路徑
+    修圖，最終把圖片儲存在temp，並回傳(絕對)路徑\\
     """
 
     # 讀圖
@@ -21,19 +21,28 @@ def pic_handle(pic_abspath):
     resultImg = Image.new('RGB', inputImg.size, (0, 0, 0, 0)) # RGBA->PNG (Fat)
     resultImg.paste(inputImg, (0,0))
 
+    # all layers
+    for action in actions:
+        # 加點字
+        if action.operation == 'addText':
+            textToAdd = action.param
+            draw = ImageDraw.Draw(resultImg)
+            myFont = ImageFont.truetype( os.path.join(fileutil.dir_fonts ,  r'TaipeiSansTCBeta-Regular.ttf') , 200)
+            draw.text( 
+                xy=(resultImg.width/4, resultImg.height/2), 
+                text=textToAdd, 
+                fill=(128, 149, 15, 255), 
+                font=myFont, 
+                anchor='mm' )
 
+        # 加點濾鏡
+        elif action.operation == 'filter':
+            resultImg = resultImg.filter(ImageFilter.CONTOUR)
+            resultImg = resultImg.effect_spread(25)
 
-    # 加點字
-    # TODO
-    draw = ImageDraw.Draw(resultImg)
-    myFont = ImageFont.truetype( os.path.join(fileutil.dir_fonts ,  r'TaipeiSansTCBeta-Regular.ttf') , 200)
-    draw.text( xy=(resultImg.width/4, resultImg.height/2), text="業力引爆AAA", fill=(128, 149, 15, 255), font=myFont, anchor='mm' )
-
-    # 加點其他酷東西
-    # TODO
-    # resultImg = resultImg.filter(ImageFilter.CONTOUR)
-    # resultImg = resultImg.effect_spread(25)
-
+        # error!
+        else:
+            raise 'No action defined!!!'
 
     # 存圖
     picSavePath = fileutil.create_random_fileName_in_temp_dir('jpg')
@@ -60,3 +69,18 @@ def createThumb(pic_absPath):
     inputImg.save(picSavePath)
     print("預覽圖已儲存！ ", picSavePath)
     return picSavePath
+
+
+
+class Pic_Edition:
+    """
+    action: 'addText', 'addFilter' \\
+    param: parameters according to action
+    """
+    operation = ''
+    param = ''
+
+    def __init__(self, operation:str, parameters:str):
+        super().__init__()
+        self.operation = operation
+        self.param = parameters

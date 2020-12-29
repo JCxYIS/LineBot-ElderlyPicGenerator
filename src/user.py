@@ -13,8 +13,8 @@ class User:
     uid = ''
     state = 0
 
-    edit_pic_filename = ''
-    edit_pic_layerArray = []
+    edit_pic_filepath = ''
+    edit_pic_editions = []
 
     def __init__(self, userid):
         super().__init__()

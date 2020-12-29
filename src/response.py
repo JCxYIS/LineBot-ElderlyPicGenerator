@@ -5,6 +5,8 @@ import response_templates
 import os
 from user import User
 import json
+import pic_handle
+import fileutil
 
 
 def determine_response(myuser:User, message:str, attachmentPath:str, attachmentExt:str):
@@ -12,9 +14,13 @@ def determine_response(myuser:User, message:str, attachmentPath:str, attachmentE
     製作回覆
     myuser: my user
     meesage: message, may be ''
-    attachmentPath: local abs path, may be ''
+    attachmentPath: abs path, may be ''
     attachmentExt: extension of attachment, maybe ''
     """
+
+    if message == 'checkstate':
+        return response_templates.flex_acoustic_message('查詢狀態', str(myuser.state), '是你的狀態碼')
+
     # 起始
     if myuser.state == 0: 
         myuser.state = 1
@@ -36,14 +42,40 @@ def determine_response(myuser:User, message:str, attachmentPath:str, attachmentE
     # 上傳圖片
     elif myuser.state == 101:
         if attachmentPath and attachmentExt=='jpg':
-            myuser.edit_pic_filename = attachmentPath
+            myuser.edit_pic_filepath = attachmentPath
             myuser.state = 110
+            myuser.edit_pic_editions = []
             return response_templates.flex_acoustic_message( 
                 '上傳成功', '好耶', '接下來來修圖吧！', temp_path_to_server_path(attachmentPath) )
     
-    # TODO 選擇功能
-    # elif myuser.state == 110:
-    #     return
+    # 選擇功能
+    elif myuser.state == 110:
+        # input text
+        if message == 'addText':   
+            myuser.state = 111
+            return response_templates.flex_acoustic_message('輸入文字', '新文字編輯', '給我你要添加的文字')  
+        elif message == 'finish': # TODO
+            myuser.state = 0
+            return response_templates.flex_acoustic_message('完成', '感謝使用長輩圖生成器', '！')            
+    
+    # 輸入文字
+    elif myuser.state == 111:
+        if message:
+            myuser.state = 112
+            myuser.edit_pic_editions.append( pic_handle.Pic_Edition('addText', message) )
+            path = pic_handle.pic_handle(myuser.edit_pic_filepath, myuser.edit_pic_editions)
+            thumb = pic_handle.createThumb(path)
+            # TODO 附加圖文選單
+            return ImageSendMessage(fileutil.temp_path_to_server_path(path), fileutil.temp_path_to_server_path(thumb))
+    
+    # 調整文字位置
+    elif myuser.state == 112:
+        # TODO
+        myuser.state = 110
+        return response_templates.flex_acoustic_message('todo','to0','d0')
+        
+
+    
 
     # default fallback
     return generate_response_from_directories('default')
