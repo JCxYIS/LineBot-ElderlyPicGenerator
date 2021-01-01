@@ -28,6 +28,8 @@ def determine_response(myuser:User, message:str, attachmentPath:str, attachmentE
         if message == '開始製作長輩圖':
             myuser.state = 100
             return response_templates.img_cor_select_pic() 
+        else:
+            return generate_response_from_directories('init')
     
     # 開始製作長輩圖
     elif myuser.state == 100:
@@ -68,7 +70,7 @@ def determine_response(myuser:User, message:str, attachmentPath:str, attachmentE
     # 調整文字位置
     elif myuser.state == 112:
         myuser.state = 110
-        return response_templates.flex_acoustic_message('todo','to0','d0')
+        return response_templates.flex_acoustic_message('todo','to110','d0')
         
 
     

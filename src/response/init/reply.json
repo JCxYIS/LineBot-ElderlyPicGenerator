@@ -9,7 +9,7 @@
             "action": {
               "type": "message",
               "label": "開始製作長輩圖",
-              "text": "Sushi"
+              "text": "開始製作長輩圖"
             }
           },
           {
@@ -18,7 +18,7 @@
             "action": {
               "type": "message",
               "label": "更多功能敬請期待！",
-              "text": "Tempura"
+              "text": "每 12 小時可以依目前樓層數領取獎勵經驗值。目前樓層"
             }
           }
         ]
