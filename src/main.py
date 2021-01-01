@@ -122,7 +122,7 @@ def onMessage(event):
     使用者【文字訊息】事件
     """
     # 
-    print("訊息：", event.message.text, '\n' , event, flush=True)   
+    # print(event, flush=True)   
 
     # 拿使用者資料、傳入response的參數
     myuser = user.getuser(event.source.user_id)    
@@ -133,12 +133,16 @@ def onMessage(event):
     attachmentExt = '' # 附件的附檔明
     if isinstance(event.message, TextMessage):
         msg_message = str(event.message.text)
+        print('文字訊息：', msg_message, flush=True)  
     elif isinstance(event.message, ImageMessage):
         attachmentExt = 'jpg'
+        print('圖片訊息', flush=True)  
     elif isinstance(event.message, VideoMessage):
         attachmentExt = 'mp4'
+        print('影片訊息', flush=True)  
     elif isinstance(event.message, AudioMessage):
         attachmentExt = 'm4a'
+        print('聲音訊息', flush=True)  
         
     # 下載附件
     # 拿訊息
@@ -161,7 +165,7 @@ def onMessage(event):
 
 
     elif msg_message == 'checkstate':
-        message = TextSendMessage(text='查詢狀態：'+str(myuser.state)+'是你的狀態碼')
+        message = TextSendMessage(text='你的狀態碼：'+str(myuser.state)+' \nUID：'+str(myuser.uid))
 
     elif msg_message == 'tmpeep': #TODO when demo, remove this
         # upload rich menu ppic, before this, register ruch menu first
@@ -194,7 +198,7 @@ def onFollow(event):
     """
     使用者【關注】事件
     """
-    print("[OnFOLLOW]", event, flush=True) 
+    print("使用者關注", event, flush=True) 
     myuser = user.getuser(event.source.user_id) 
     myuser.state = 1
     message = response.generate_response_from_directories('init')
@@ -206,7 +210,7 @@ def onPostback(event):
     """
     使用者【PostBack】事件
     """
-    print("[onPostback]", event, flush=True) 
+    print("使用者【PostBack】事件", event, flush=True) 
     myuser = user.getuser(event.source.user_id) 
     # TODO
 
@@ -216,7 +220,7 @@ def default(event):
     """
     使用者【其他】事件
     """
-    print('[DEFAULT_EVENT_HANDLER] ', event, flush=True)
+    print('使用者【其他】事件 ', event, flush=True)
 
 
 ############################################################################################################

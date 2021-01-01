@@ -108,7 +108,7 @@ def generate_response_from_directories(reqDirName) -> SendMessage:
     if json:
         return parse_reply_json(json)
     else:
-        return response_templates.flex_acoustic_message('我聽不懂耶', '你是不是亂搞', '林北老灰啊聽毋啦')
+        return response_templates.flex_acoustic_message('我聽不懂耶', '看一下左下角有沒有三橫線按鈕(功能選單)？', '林北老灰啊聽毋啦')
 
 
 def get_reply_json_string_from_directories(dirName)-> str: 
