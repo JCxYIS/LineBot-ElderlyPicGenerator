@@ -122,7 +122,7 @@ def onMessage(event):
     使用者【文字訊息】事件
     """
     # 
-    print("[GET MSG]", event, flush=True)   
+    print("訊息：", event.message.text, '\n' , event, flush=True)   
 
     # 拿使用者資料、傳入response的參數
     myuser = user.getuser(event.source.user_id)    
