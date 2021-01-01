@@ -158,7 +158,8 @@ def onMessage(event):
     if msg_message == 'checkstate':
         message = TextSendMessage(text='查詢狀態：'+str(myuser.state)+'是你的狀態碼')
 
-    elif msg_message == 'uploadrichmenuedpic': #TODO remove this
+    elif msg_message == 'uploadrichmenuedpic': #TODO when demo, remove this
+        # upload rich menu ppic, before this, register ruch menu first
         with open( os.path.join(fileutil.dir_resp, 'richmenu_editpic', 'richmenu_edpic.jpg') , 'rb') as f:
             linebot_api.set_rich_menu_image('richmenu-95adfde2e2fe64784441903bfb09fe2a', 'image/jpeg', f)
         message = TextSendMessage(text='ok')
@@ -173,6 +174,7 @@ def onMessage(event):
     attach_richmenu_id = response.determine_attach_rich_menus(myuser)
     if attach_richmenu_id:
         linebot_api.link_rich_menu_to_user(event.source.user_id, attach_richmenu_id)
+        print('掛上Rich Menu', attach_richmenu_id, flush=True)
     else:
         linebot_api.unlink_rich_menu_from_user(event.source.user_id)
 

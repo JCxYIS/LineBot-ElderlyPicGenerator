@@ -63,12 +63,10 @@ def determine_response(myuser:User, message:str, attachmentPath:str, attachmentE
             myuser.edit_pic_editions.append( pic_handle.Pic_Edition('addText', message) )
             path = pic_handle.pic_handle(myuser.edit_pic_filepath, myuser.edit_pic_editions)
             thumb = pic_handle.createThumb(path)
-            # TODO 附加圖文選單
             return ImageSendMessage(fileutil.temp_path_to_server_path(path), fileutil.temp_path_to_server_path(thumb))
     
     # 調整文字位置
     elif myuser.state == 112:
-        # TODO
         myuser.state = 110
         return response_templates.flex_acoustic_message('todo','to0','d0')
         
