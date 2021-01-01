@@ -171,7 +171,7 @@ def onMessage(event):
 
     elif msg_message == 'uploadrichmenuedpic':
         with open( os.path.join(fileutil.dir_resp, 'richmenu_editpic', 'richmenu_edpic.jpg') , 'rb') as f:
-            linebot_api.set_rich_menu_image('richmenu-95adfde2e2fe64784441903bfb09fe2a', 'image/jpeg', f)
+            linebot_api.set_rich_menu_image('richmenu-f044828aaa74c00b3267ca23d3373743', 'image/jpeg', f)
 
     else:
         message = response.determine_response(myuser, msg_message, msg_attachment_path, attachmentExt)
