@@ -87,8 +87,11 @@ def determine_attach_rich_menus(myuser:User):
     如果沒有，回傳 空字串
     """
 
+    if myuser.state == 110:
+        return 'richmenu-f044828aaa74c00b3267ca23d3373743'
+
     # 調整文字位置
-    if myuser.state == 112:
+    elif myuser.state == 112:
         return 'richmenu-95adfde2e2fe64784441903bfb09fe2a'
 
     else:
