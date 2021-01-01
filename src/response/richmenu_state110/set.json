@@ -1,0 +1,47 @@
+{
+    "size": {
+      "width": 2500,
+      "height": 1686
+    },
+    "selected": true,
+    "name": "function_select",
+    "chatBarText": "查看更多資訊",
+    "areas": [
+      {
+        "bounds": {
+          "x": 55,
+          "y": 161,
+          "width": 1030,
+          "height": 1076
+        },
+        "action": {
+          "type": "message",
+          "text": "addText"
+        }
+      },
+      {
+        "bounds": {
+          "x": 1229,
+          "y": 623,
+          "width": 1271,
+          "height": 1063
+        },
+        "action": {
+          "type": "message",
+          "text": "applyFilter"
+        }
+      },
+      {
+        "bounds": {
+          "x": 1297,
+          "y": 13,
+          "width": 1203,
+          "height": 521
+        },
+        "action": {
+          "type": "message",
+          "text": "finish"
+        }
+      }
+    ]
+  }

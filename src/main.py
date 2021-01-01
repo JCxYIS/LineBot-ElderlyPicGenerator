@@ -153,44 +153,31 @@ def onMessage(event):
         msg_attachment_path = tempfile_path + '.' + attachmentExt
         os.rename(tempfile_path, msg_attachment_path)
 
-        # # 試試看處理圖片
-        # pic_path = pic_handle.pic_handle(dist_path)
-        # thm_path = pic_handle.createThumb(pic_path)
-
-        # # 取得圖片在伺服器位置
-        # server_pic_path = fileutil.temp_path_to_server_path(pic_path)
-        # server_thm_path = fileutil.temp_path_to_server_path(thm_path)
-        # print('Rerurn pic path=', server_pic_path,'\nthumb path=', server_thm_path, flush=True)
-
 
     # 製作回覆
-
-    # FIXME admin tasks!
     if msg_message == 'checkstate':
-        message = TextSendMessage(text='查詢狀態'+str(myuser.state)+'是你的狀態碼')
+        message = TextSendMessage(text='查詢狀態：'+str(myuser.state)+'是你的狀態碼')
 
-    elif msg_message == 'uploadrichmenuedpic':
+    elif msg_message == 'uploadrichmenuedpic': #TODO when demo, remove this
+        # upload rich menu ppic, before this, register ruch menu first
         with open( os.path.join(fileutil.dir_resp, 'richmenu_editpic', 'richmenu_edpic.jpg') , 'rb') as f:
             linebot_api.set_rich_menu_image('richmenu-f044828aaa74c00b3267ca23d3373743', 'image/jpeg', f)
+        message = TextSendMessage(text='ok')
 
     else:
         message = response.determine_response(myuser, msg_message, msg_attachment_path, attachmentExt)
-    # message = response.generate_response_from_directories( str(event.message.text) )
-    # message = TextSendMessage(text="郭")
 
     # 發送回覆
     linebot_api.reply_message(event.reply_token, message)
-    # print("--------------", flush=True) 
 
-    # 傳送！
-    # linebot_api.reply_message(
-    #     event.reply_token, [
-    #         # TextSendMessage(text='檔案已儲存'),
-    #         # TextSendMessage( text= )
-    #         ImageSendMessage(
-    #             original_content_url=server_pic_path,
-    #             preview_image_url=server_thm_path)
-    #     ]);
+    # 掛上 Rich Menu
+    attach_richmenu_id = response.determine_attach_rich_menus(myuser)
+    if attach_richmenu_id:
+        linebot_api.link_rich_menu_to_user(event.source.user_id, attach_richmenu_id)
+        print('掛上Rich Menu', attach_richmenu_id, flush=True)
+    else:
+        linebot_api.unlink_rich_menu_from_user(event.source.user_id)
+
     return;
 
 # @webhook_handler.add(MessageEvent, message=(ImageMessage, VideoMessage, AudioMessage))
