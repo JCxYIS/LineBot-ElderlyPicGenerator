@@ -44,7 +44,6 @@ def determine_response(myuser:User, message:str, attachmentPath:str, attachmentE
             myuser.edit_pic_filepath = attachmentPath
             myuser.state = 110
             myuser.edit_pic_editions = []
-            # TODO 附加quick reply之類的：選擇功能
             return response_templates.flex_acoustic_message( 
                 '上傳成功', '好耶，接下來來修圖吧！', 'rqeqeeqe', temp_path_to_server_path(attachmentPath) )
     
