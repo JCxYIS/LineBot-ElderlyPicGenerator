@@ -7,7 +7,7 @@ def flex_acoustic_message(msg:str, submsg:str, subsubmsg:str, bgUrl:str=''):
   """
   if not bgUrl:
     # TODO
-    bgUrl = 'https://www.penzai.com/uploads/img/201912/07/1575687525650046.jpg'
+    bgUrl = 'https://github.com/JCxYIS/LineBot-ElderlyPicGenerator/raw/main/samplepics/366329.jpg'
 
   content = {
                 "type": "bubble",

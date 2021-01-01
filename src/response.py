@@ -30,13 +30,13 @@ def determine_response(myuser:User, message:str, attachmentPath:str, attachmentE
     elif myuser.state == 1:
         if message == '開始製作長輩圖':
             myuser.state = 100
-            return response_templates.img_cor_select_pic() # TODO 使用者選擇耿圖範本
+            return response_templates.img_cor_select_pic() 
     
     # 開始製作長輩圖
     elif myuser.state == 100:
         if message == 'goupload':
-            myuser.state = 110
-            return response_templates.flex_acoustic_message('開始上傳', '來', '給我你要修圖的圖片')       
+            myuser.state = 101
+            return response_templates.flex_acoustic_message('開始上傳', '來給我你要修圖的圖片', '')       
         # TODO selected pic 
     
     # 上傳圖片
@@ -45,6 +45,7 @@ def determine_response(myuser:User, message:str, attachmentPath:str, attachmentE
             myuser.edit_pic_filepath = attachmentPath
             myuser.state = 110
             myuser.edit_pic_editions = []
+            # TODO 附加quick reply之類的
             return response_templates.flex_acoustic_message( 
                 '上傳成功', '好耶', '接下來來修圖吧！', temp_path_to_server_path(attachmentPath) )
     
@@ -53,10 +54,10 @@ def determine_response(myuser:User, message:str, attachmentPath:str, attachmentE
         # input text
         if message == 'addText':   
             myuser.state = 111
-            return response_templates.flex_acoustic_message('輸入文字', '新文字編輯', '給我你要添加的文字')  
+            return response_templates.flex_acoustic_message('輸入文字', '給我你要添加的文字', '新文字編輯')  
         elif message == 'finish': # TODO
             myuser.state = 0
-            return response_templates.flex_acoustic_message('完成', '感謝使用長輩圖生成器', '！')            
+            return response_templates.flex_acoustic_message('完成', '感謝使用長輩圖生成器！', '！')            
     
     # 輸入文字
     elif myuser.state == 111:

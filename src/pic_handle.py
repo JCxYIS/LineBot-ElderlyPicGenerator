@@ -8,7 +8,7 @@ import time
 ######################################################
 
 
-def pic_handle(pic_abspath:str, actions:list[Pic_Edition]) :
+def pic_handle(pic_abspath:str, actions:list) :
     """
     修圖，最終把圖片儲存在temp，並回傳(絕對)路徑\\
     """
