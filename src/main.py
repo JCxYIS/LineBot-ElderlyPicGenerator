@@ -155,7 +155,12 @@ def onMessage(event):
 
 
     # 製作回覆
-    if msg_message == 'checkstate':
+    if msg_message == 'reset':
+        myuser.state = 0
+        message = TextSendMessage(text='已重設你的狀態state')
+
+
+    elif msg_message == 'checkstate':
         message = TextSendMessage(text='查詢狀態：'+str(myuser.state)+'是你的狀態碼')
 
     elif msg_message == 'tmpeep': #TODO when demo, remove this

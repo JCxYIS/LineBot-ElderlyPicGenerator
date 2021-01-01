@@ -35,7 +35,7 @@ def determine_response(myuser:User, message:str, attachmentPath:str, attachmentE
     elif myuser.state == 100:
         if message == 'goupload':
             myuser.state = 101
-            return response_templates.flex_acoustic_message('開始上傳', '來給我你要修圖的圖片', '')       
+            return response_templates.flex_acoustic_message('開始上傳', '來給我你要修圖的圖片', 'a')       
         # TODO selected pic 
     
     # 上傳圖片
@@ -81,12 +81,10 @@ def determine_response(myuser:User, message:str, attachmentPath:str, attachmentE
 # -----------------------------------------------------------------------------------------------------------------
 
 
-
-
 def determine_attach_rich_menus(myuser:User):
     """
     依照現在的 user state決定要附加甚麼rich menu \\ 
-    如果沒有，回傳None
+    如果沒有，回傳 空字串
     """
 
     # 調整文字位置
@@ -94,12 +92,7 @@ def determine_attach_rich_menus(myuser:User):
         return 'richmenu-95adfde2e2fe64784441903bfb09fe2a'
 
     else:
-        return None
-
-
-
-
-
+        return ''
 
 
 # -----------------------------------------------------------------------------------------------------------------
@@ -134,9 +127,9 @@ def get_reply_json_string_from_directories(dirName)-> str:
             return f
         else:
             print("[WARNING] 回應資料夾裡面不存在 reply.json！ ", replyJsonPath)
-            return None
+            return ''
     else:
-        return None
+        return ''
 
 
 def parse_reply_json(replyJson:str):
