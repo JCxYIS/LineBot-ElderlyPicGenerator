@@ -1,0 +1,107 @@
+{
+    "size": {
+      "width": 2500,
+      "height": 1686
+    },
+    "selected": true,
+    "name": "edpic",
+    "chatBarText": "編輯圖片功能表",
+    "areas": [
+      {
+        "bounds": {
+          "x": 369,
+          "y": 93,
+          "width": 445,
+          "height": 475
+        },
+        "action": {
+          "type": "message",
+          "text": "up"
+        }
+      },
+      {
+        "bounds": {
+          "x": 0,
+          "y": 589,
+          "width": 572,
+          "height": 487
+        },
+        "action": {
+          "type": "message",
+          "text": "left"
+        }
+      },
+      {
+        "bounds": {
+          "x": 415,
+          "y": 1102,
+          "width": 610,
+          "height": 495
+        },
+        "action": {
+          "type": "message",
+          "text": "down"
+        }
+      },
+      {
+        "bounds": {
+          "x": 746,
+          "y": 564,
+          "width": 559,
+          "height": 508
+        },
+        "action": {
+          "type": "message",
+          "text": "right"
+        }
+      },
+      {
+        "bounds": {
+          "x": 1301,
+          "y": 17,
+          "width": 674,
+          "height": 462
+        },
+        "action": {
+          "type": "message",
+          "text": "rspin"
+        }
+      },
+      {
+        "bounds": {
+          "x": 2072,
+          "y": 0,
+          "width": 428,
+          "height": 432
+        },
+        "action": {
+          "type": "message",
+          "text": "lspin"
+        }
+      },
+      {
+        "bounds": {
+          "x": 1394,
+          "y": 619,
+          "width": 1106,
+          "height": 436
+        },
+        "action": {
+          "type": "message",
+          "text": "done"
+        }
+      },
+      {
+        "bounds": {
+          "x": 1292,
+          "y": 1195,
+          "width": 1208,
+          "height": 394
+        },
+        "action": {
+          "type": "message",
+          "text": "undo"
+        }
+      }
+    ]
+  }

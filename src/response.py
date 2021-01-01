@@ -16,10 +16,7 @@ def determine_response(myuser:User, message:str, attachmentPath:str, attachmentE
     meesage: message, may be ''
     attachmentPath: abs path, may be ''
     attachmentExt: extension of attachment, maybe ''
-    """
-
-    if message == 'checkstate':
-        return response_templates.flex_acoustic_message('查詢狀態', str(myuser.state), '是你的狀態碼')
+    """    
 
     # 起始
     if myuser.state == 0: 
@@ -82,14 +79,26 @@ def determine_response(myuser:User, message:str, attachmentPath:str, attachmentE
     return generate_response_from_directories('default')
 
 
-# ------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------------------------------------------
 
 def generate_response_from_directories(reqDirName) -> SendMessage:
     """
     從 Response 資料夾抓相應的 Response
     """
+    json = get_reply_json_string_from_directories(reqDirName)
+    if json:
+        return parse_reply_json(json)
+    else:
+        return response_templates.flex_acoustic_message('我聽不懂耶', '你是不是亂搞', '林北老灰啊聽毋啦')
 
-    dirName = os.path.join(dir_resp, reqDirName)
+
+def get_reply_json_string_from_directories(dirName)-> str: 
+    """
+    從 Response 資料夾抓相應的 response.json 字串 \\
+    沒有的話回傳None
+    """
+
+    dirName = os.path.join(dir_resp, dirName)
 
     # 回應資料夾存在！
     if os.path.exists(dirName):
@@ -99,18 +108,15 @@ def generate_response_from_directories(reqDirName) -> SendMessage:
         # 回應資料夾裡面存在 reply.json
         if os.path.exists(replyJsonPath):
             f = open(replyJsonPath, "r").read()
-            msg = parse_reply_json(f)
-            return msg
+            return f
         else:
             print("[WARNING] 回應資料夾裡面不存在 reply.json！ ", replyJsonPath)
-            return TextSendMessage(text="出代誌阿啦 緊去call-in開花者拉 卡緊")
-
+            return None
     else:
-        print("Response Dir Name NOT Exist! ", dirName)
-        return response_templates.flex_acoustic_message('我聽不懂耶', '你是不是亂搞', '林北老灰啊聽毋啦')
+        return None
 
 
-def parse_reply_json(replyJson):
+def parse_reply_json(replyJson:str):
     """
     解析reply.json，回傳相應的物件
     """

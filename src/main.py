@@ -164,7 +164,17 @@ def onMessage(event):
 
 
     # 製作回覆
-    message = response.determine_response(myuser, msg_message, msg_attachment_path, attachmentExt)
+
+    # FIXME admin tasks!
+    if msg_message == 'checkstate':
+        message = TextSendMessage(text='查詢狀態'+str(myuser.state)+'是你的狀態碼')
+
+    elif msg_message == 'upload_rich_edpic':
+        with open( os.path.join(fileutil.dir_resp, 'richmenu_editpic', 'richmenu_edpic.jpg') , 'rb') as f:
+            linebot_api.set_rich_menu_image('edpic', 'image/jpeg', f)
+
+    else:
+        message = response.determine_response(myuser, msg_message, msg_attachment_path, attachmentExt)
     # message = response.generate_response_from_directories( str(event.message.text) )
     # message = TextSendMessage(text="郭")
 
