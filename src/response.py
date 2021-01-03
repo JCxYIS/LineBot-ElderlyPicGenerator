@@ -84,11 +84,11 @@ def determine_response(myuser:User, message:str, attachmentPath:str, attachmentE
 
         elif message == 'move':
             myuser.state = 113
-            return response_templates.flex_acoustic_message('輸入你要移動的方向與距離',
+            return response_templates.flex_acoustic_message('輸入你要移動的新座標',
                 '(現在：' + 
                 str(myuser.edit_pic_editions[ myuser.edit_pic_editingIndex ].posx) + ' '+
                 str(myuser.edit_pic_editions[ myuser.edit_pic_editingIndex ].posy) + 
-                ') 格式：{up/down/left/right} {move_distance}', '0')      
+                ') 格式：{x} {y} (各為0~100) (如：87 63)', '0')      
 
         elif message == 'color':
             myuser.state = 114
@@ -98,7 +98,7 @@ def determine_response(myuser:User, message:str, attachmentPath:str, attachmentE
                 str(myuser.edit_pic_editions[ myuser.edit_pic_editingIndex ].colorg) + ' '+ 
                 str(myuser.edit_pic_editions[ myuser.edit_pic_editingIndex ].colorb) + ' '+
                 str(myuser.edit_pic_editions[ myuser.edit_pic_editingIndex ].colora) + 
-                ') 格式：{red/green/blue/...} or {enter rgba color (如：255 153 166 255)}', '0') 
+                ') 格式：{rgba color (各為0~255) (如：255 153 166 255)}', '0') 
 
         elif message == 'size':
             myuser.state = 115
@@ -107,31 +107,42 @@ def determine_response(myuser:User, message:str, attachmentPath:str, attachmentE
                 str(myuser.edit_pic_editions[ myuser.edit_pic_editingIndex ].size) + 
                 ') 格式：{數字}', '0')            
     
-    # 移動文字的方向與距離 TODO
+    # 移動文字的方向與距離 
     elif myuser.state == 113:
-        return TextSendMessage('todo');
+        numArr = message.split(' ')        
+        if len(numArr) != 2:
+            return TextSendMessage('你必須輸入 2 個 0 ~ 100 的數字！');
+        try:
+            myuser.edit_pic_editions[ myuser.edit_pic_editingIndex ].posx = abs( int(numArr[0]) % 100 )
+            myuser.edit_pic_editions[ myuser.edit_pic_editingIndex ].posy = abs( int(numArr[1]) % 100 )
+            myuser.state = 112
+            return handle_Pic_and_reply(myuser)
+        except ValueError:
+            return TextSendMessage('你必須輸入 2 個 0 ~ 100 的數字...');
 
-    # 更換文字的顏色 TODO
+    # 更換文字的顏色 
     elif myuser.state == 114:
         colorArr = message.split(' ')        
         if len(colorArr) != 4:
-            return TextSendMessage('你必須輸入四個小於255的數字！');
+            return TextSendMessage('你必須輸入四個 0 ~ 255 的數字！');
         try:
-            myuser.edit_pic_editions[ myuser.edit_pic_editingIndex ].colorr = int(colorArr[0]) % 255
-            myuser.edit_pic_editions[ myuser.edit_pic_editingIndex ].colorg = int(colorArr[1]) % 255
-            myuser.edit_pic_editions[ myuser.edit_pic_editingIndex ].colorb = int(colorArr[2]) % 255
-            myuser.edit_pic_editions[ myuser.edit_pic_editingIndex ].colora = int(colorArr[3]) % 255
+            myuser.edit_pic_editions[ myuser.edit_pic_editingIndex ].colorr = abs( int(colorArr[0]) % 255 )
+            myuser.edit_pic_editions[ myuser.edit_pic_editingIndex ].colorg = abs( int(colorArr[1]) % 255 )
+            myuser.edit_pic_editions[ myuser.edit_pic_editingIndex ].colorb = abs( int(colorArr[2]) % 255 )
+            myuser.edit_pic_editions[ myuser.edit_pic_editingIndex ].colora = abs( int(colorArr[3]) % 255 )
+            myuser.state = 112
+            return handle_Pic_and_reply(myuser)
         except ValueError:
-            return TextSendMessage('你必須輸入四個小於255的數字...');
+            return TextSendMessage('你必須輸入四個 0 ~ 255 的數字...');
 
     # 文字的大小
     elif myuser.state == 115:        
         try:
-            size = int(message)
-            myuser.edit_pic_editions[ myuser.edit_pic_editingIndex ].size = size
+            myuser.edit_pic_editions[ myuser.edit_pic_editingIndex ].size = abs ( int(message) % 48763 )
+            myuser.state = 112
             return handle_Pic_and_reply(myuser)
         except ValueError:            
-            return response_templates.flex_acoustic_message('耍我啊', '請輸入正確的數值！')
+            return TextSendMessage('你必須輸入 1 個 0 ~ 48763 的數字...');
     
     # 調整指定某一層 TODO
     elif myuser.case == 121:

@@ -26,7 +26,7 @@ def pic_handle(pic_abspath:str, actions:list):
 
         # 加點字
         if action.operation == 'AddText':
-            myFont = ImageFont.truetype( os.path.join(fileutil.dir_fonts ,  r'TaipeiSansTCBeta-Regular.ttf') , 200)           
+            myFont = ImageFont.truetype( os.path.join(fileutil.dir_fonts ,  r'TaipeiSansTCBeta-Regular.ttf') , action.size)           
             draw = ImageDraw.Draw(resultImg)
 
             draw.text( 
