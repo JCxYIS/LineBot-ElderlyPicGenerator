@@ -24,6 +24,7 @@
     - move -> 113
     - color -> 114
     - size -> 115
+    - text -> 116 //TODO
     - done -> 110
     - remove -> 110
 - `113`：調整文字位置

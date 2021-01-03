@@ -113,7 +113,7 @@ def getalluser():
         if 'edit_pic_editions' in udict:
             editionStr = '['
             for edition in udict['edit_pic_editions']:
-                editionStr += edition.__dict__ +','
+                editionStr += str(edition.__dict__) +','
             editionStr += ']'
             udict['edit_pic_editions'] = editionStr
         # print(udict)
