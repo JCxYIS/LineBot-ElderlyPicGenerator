@@ -21,12 +21,12 @@
 - `111`：輸入文字
     - (有文字) -> 112
 - `112`：調整文字設定 (顯示圖文選單)  
-    - //TODO move -> 113
-    - //TODO color -> 114
+    - move -> 113
+    - color -> 114
     - size -> 115
     - done -> 110
-    - TODO cancel last move -> 112
-    - TODO remove -> 110
+    - //TODO cancel last move -> 112
+    - //TODO remove -> 110
 - `113`：調整文字位置
     - //TODO (正確參數) -> 112
 - `114`：調整文字顏色

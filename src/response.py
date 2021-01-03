@@ -78,7 +78,7 @@ def determine_response(myuser:User, message:str, attachmentPath:str, attachmentE
     
     # 調整{文字}的rich menu
     elif myuser.state == 112:
-        if message == 'finish':
+        if message == 'done':
             myuser.state = 110
             return response_templates.flex_acoustic_message('繼續修改！','滿意的話就按下finish吧！','d0')            
         elif message == 'move':
