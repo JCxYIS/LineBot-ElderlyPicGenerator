@@ -41,9 +41,13 @@ def determine_response(myuser:User, message:str, attachmentPath:str, attachmentE
     # 上傳圖片
     elif myuser.state == 101:
         if attachmentPath and attachmentExt=='jpg':
-            myuser.edit_pic_filepath = attachmentPath
             myuser.state = 110
+
+            # user edit_pic狀態
+            myuser.edit_pic_filepath = attachmentPath
             myuser.edit_pic_editions = []
+            myuser.edit_pic_editingIndex = 0
+
             return response_templates.flex_acoustic_message( 
                 '好耶！上傳成功', '點擊下方選項按鈕，開始修圖吧', '好耶，接下來來修圖吧！', temp_path_to_server_path(attachmentPath) )
     
@@ -52,8 +56,11 @@ def determine_response(myuser:User, message:str, attachmentPath:str, attachmentE
         # input text
         if message == 'addText':   
             myuser.state = 111
-            return response_templates.flex_acoustic_message('輸入文字', '給我你要添加的文字', '新文字編輯')  
-        elif message == 'finish': # TODO
+            return response_templates.flex_acoustic_message('輸入文字', '給我你要添加的文字', '新文字編輯')
+        elif message == 'editLayer': # TODO
+            myuser.state = 121
+            return response_templates.flex_acoustic_message('輸入想編輯的層數', '你想更改下面哪一圖層呢？', 'haha8')
+        elif message == 'finish': 
             myuser.state = 0
             return response_templates.flex_acoustic_message('完成', '感謝使用長輩圖生成器！', '！')            
     
@@ -61,12 +68,15 @@ def determine_response(myuser:User, message:str, attachmentPath:str, attachmentE
     elif myuser.state == 111:
         if message:
             myuser.state = 112
-            myuser.edit_pic_editions.append( pic_handle.Pic_Edition('addText', message) )
-            path = pic_handle.pic_handle(myuser.edit_pic_filepath, myuser.edit_pic_editions)
-            thumb = pic_handle.createThumb(path)
-            return ImageSendMessage(fileutil.temp_path_to_server_path(path), fileutil.temp_path_to_server_path(thumb))
+            
+            # 加user edit_pic狀態
+            newEdition = pic_handle.PicEdition_AddText(message, 50, 50, 50, 255, 255, 255, 255)      
+            myuser.edit_pic_editions.append(newEdition) 
+            myuser.edit_pic_editingIndex = len(myuser.edit_pic_editions) - 1         
+
+            return handle_Pic_and_reply(myuser)
     
-    # 調整文字的rich menu
+    # 調整{文字}的rich menu
     elif myuser.state == 112:
         if message == 'finish':
             myuser.state = 110
@@ -74,22 +84,56 @@ def determine_response(myuser:User, message:str, attachmentPath:str, attachmentE
         elif message == 'move':
             myuser.state = 113
             return response_templates.flex_acoustic_message('輸入你要移動的方向與距離',
-                '(現在位置：' + str('') + ') 格式：up/down/left/right move_distance', '0')            
+                '(現在位置：' + 
+                str(myuser.edit_pic_editions[ myuser.edit_pic_editingIndex ].posx) + ' '+
+                str(myuser.edit_pic_editions[ myuser.edit_pic_editingIndex ].posy) + 
+                ') 格式：{up/down/left/right} {move_distance}', '0')            
         elif message == 'color':
             myuser.state = 114
             return response_templates.flex_acoustic_message('輸入你要更換的顏色',
-                '(現在：' + str('') + ') 格式：red/green/blue/... or #(hex color)', '0')            
+                '格式：{red/green/blue/...} or {enter rgba color (如：255 153 166 255)}', '0')            
         elif message == 'size':
             myuser.state = 115
             return response_templates.flex_acoustic_message('輸入你要變更的大小',
-                '(現在：' + str('') + ') 格式：數字', '0')            
-        
-        
-
+                '(現在：' + 
+                str(myuser.edit_pic_editions[ myuser.edit_pic_editingIndex ].size) + 
+                ') 格式：{數字}', '0')            
     
+    # 移動文字的方向與距離
+    elif myuser.state == 113:
+        return TextSendMessage('todo');
+
+    # 更換文字的顏色
+    elif myuser.state == 114:
+        return TextSendMessage('todo');
+
+    # 文字的大小
+    elif myuser.state == 115:        
+        try:
+            size = int(message)
+            myuser.edit_pic_editions[ myuser.edit_pic_editingIndex ].size = size
+            return handle_Pic_and_reply(myuser)
+        except ValueError:            
+            return response_templates.flex_acoustic_message('耍我啊', '請輸入正確的數值！')
+    
+    # 調整指定某一層 TODO
+    elif myuser.case == 121:
+        myuser.state = 110
+        return TextSendMessage('todo')
 
     # default fallback
     return generate_response_from_directories('default')
+
+
+# -----------------------------------------------------------------------------------------------------------------
+
+def handle_Pic_and_reply(myuser: user):
+    """
+    進行修圖，並把結果利用ImageSendMessage丟回使用者
+    """
+    path = pic_handle.pic_handle(myuser.edit_pic_filepath, myuser.edit_pic_editions)
+    thumb = pic_handle.createThumb(path)
+    return ImageSendMessage(fileutil.temp_path_to_server_path(path), fileutil.temp_path_to_server_path(thumb))
 
 
 # -----------------------------------------------------------------------------------------------------------------

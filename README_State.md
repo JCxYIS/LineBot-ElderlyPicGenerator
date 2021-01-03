@@ -9,33 +9,33 @@
 ## 1：長輩圖生成
 - `100`：開始製作長輩圖 (顯示圖文選單：範本s)
     - goupload -> 101
-    - TODO pic_N -> 110    
+    - //TODO pic_N -> 110    
 - `101`：上傳圖片 (等待使用者上傳)
     - (有圖片附件) -> 110
 
 - `110`：選擇功能 (QuickReply：添加文字/效果/完成)
     - addText -> 111
-    - TODO filter
-    - TODO edit prev layer -> 121
-    - finish -> 150
+    - //TODO addFilter
+    - //TODO edit layer -> 121
+    - finish -> 0  //TODO? 150
 - `111`：輸入文字
     - (有文字) -> 112
 - `112`：調整文字設定 (顯示圖文選單)  
-    - TODO move -> 113
-    - TODO color -> 114
-    - TODO size -> 115
+    - //TODO move -> 113
+    - //TODO color -> 114
+    - size -> 115
     - done -> 110
     - TODO cancel last move -> 112
     - TODO remove -> 110
 - `113`：調整文字位置
-    - TODO (正確參數) -> 112
+    - //TODO (正確參數) -> 112
 - `114`：調整文字顏色
-    - TODO (正確參數) -> 112
+    - //TODO (正確參數) -> 112
 - `115`：調整文字大小
-    - TODO (正確參數) -> 112
+    - (正確參數) -> 112
 
 - `121`：調整指定某一層
-    - TODO (正確層數) -> 112
+    - //TODO (正確層數) -> 112
 - `150`：完成 (QuickReply：直接完成/分享)
     - end
     - share

@@ -8,7 +8,7 @@ import time
 ######################################################
 
 
-def pic_handle(pic_abspath:str, actions:list) :
+def pic_handle(pic_abspath:str, actions:[PicEdition]) :
     """
     修圖，最終把圖片儲存在temp，並回傳(絕對)路徑\\
     """
@@ -25,20 +25,19 @@ def pic_handle(pic_abspath:str, actions:list) :
     for action in actions:
 
         # 加點字
-        if action.operation == 'addText':
-            myFont = ImageFont.truetype( os.path.join(fileutil.dir_fonts ,  r'TaipeiSansTCBeta-Regular.ttf') , 200)
-            textToAdd = action.param
-            
+        if action.operation == 'AddText':
+            myFont = ImageFont.truetype( os.path.join(fileutil.dir_fonts ,  r'TaipeiSansTCBeta-Regular.ttf') , 200)           
             draw = ImageDraw.Draw(resultImg)
+
             draw.text( 
-                xy=(resultImg.width/4, resultImg.height/2), #TODO
-                text=textToAdd, 
-                fill=(128, 149, 15, 255), #TODO
-                font=myFont, 
+                xy= ( action.posx, action.posy ), 
+                text= action.text, 
+                fill=(action.colorr, action.colorg, action.colorb, action.colora), 
+                font= myFont, 
                 anchor='mm' )
 
         # 加點濾鏡
-        elif action.operation == 'filter': #TODO
+        elif action.operation == 'AddFilter': #TODO
             resultImg = resultImg.filter(ImageFilter.CONTOUR)
             resultImg = resultImg.effect_spread(25)
 
@@ -74,15 +73,34 @@ def createThumb(pic_absPath):
 
 
 
-class Pic_Edition:
-    """
-    action: 'addText', 'addFilter' \\
-    param: parameters according to action
-    """
-    operation = ''
-    param = ''
+# PicEditionAction classes ------------------------------------------------------------------------
 
-    def __init__(self, operation:str, parameters:str):
+class PicEdition_AddText(PicEdition):
+    def __init__(self, text:str, posx:float, posy:float, size:int, colorr:int, colorg:int, colorb:int, colora:int):
+        super().__init__('AddText')
+        self.text = text
+        self.posx = posx
+        self.posy = posy
+        self.size = size
+        self.colorr = colorr
+        self.colorg = colorg
+        self.colorb = colorb
+        self.colora = colora
+
+class PicEdition_AddFilter(PicEdition):
+    def __init__(self, filterName:str):
+        super().__init__('AddFilter')
+        self.filterName = filterName
+
+
+# main classes ------------------------------------------------------------------------
+
+class PicEdition:
+    """
+    每一筆圖片修改的操作。不要從基底創建東西！ \\
+    action: 看有什麼更改圖片的操作，如：'AddText', 'AddFilter' (注意首字大寫) \\
+    """
+    def __init__(self, operation:str):
         super().__init__()
         self.operation = operation
-        self.param = parameters
+        # self.param = parameters
