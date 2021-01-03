@@ -23,26 +23,28 @@ def pic_handle(pic_abspath:str, actions:list) :
 
     # all layers
     for action in actions:
+
         # 加點字
         if action.operation == 'addText':
-            textToAdd = action.param
-            draw = ImageDraw.Draw(resultImg)
             myFont = ImageFont.truetype( os.path.join(fileutil.dir_fonts ,  r'TaipeiSansTCBeta-Regular.ttf') , 200)
+            textToAdd = action.param
+            
+            draw = ImageDraw.Draw(resultImg)
             draw.text( 
-                xy=(resultImg.width/4, resultImg.height/2), 
+                xy=(resultImg.width/4, resultImg.height/2), #TODO
                 text=textToAdd, 
-                fill=(128, 149, 15, 255), 
+                fill=(128, 149, 15, 255), #TODO
                 font=myFont, 
                 anchor='mm' )
 
         # 加點濾鏡
-        elif action.operation == 'filter':
+        elif action.operation == 'filter': #TODO
             resultImg = resultImg.filter(ImageFilter.CONTOUR)
             resultImg = resultImg.effect_spread(25)
 
         # error!
         else:
-            raise 'No action defined!!!'
+            raise 'Invalid action defined!!!'
 
     # 存圖
     picSavePath = fileutil.create_random_fileName_in_temp_dir('jpg')

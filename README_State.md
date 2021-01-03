@@ -18,13 +18,19 @@
     - finish -> 150
 - `111`：輸入文字
     - (有文字) -> 112
-- `112`：調整文字位置 (顯示圖文選單 上下左右+完成+取消)  
-    - TODO up
-    - TODO down
-    - TODO left
-    - TODO right
-    - TODO done
-    - TODO cancel
+- `112`：調整文字設定 (顯示圖文選單 上下左右+完成+取消)  
+    - TODO move
+    - TODO color
+    - TODO size
+    - done -> 110
+    - TODO cancel last move
+    - TODO remove
+- `113`：調整文字位置
+    - (正確參數) -> 112
+- `114`：調整文字顏色
+    - ()
+- `115`：調整文字大小
+
 - `150`：完成 (QuickReply：直接完成/分享)
     - end
     - share

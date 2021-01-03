@@ -9,7 +9,7 @@ import pic_handle
 import fileutil
 
 
-def determine_response(myuser:User, message:str, attachmentPath:str, attachmentExt:str):
+def determine_response(myuser:User, message:str, attachmentPath:str, attachmentExt:str) -> SendMessage:
     """
     製作回覆
     myuser: my user
@@ -45,7 +45,7 @@ def determine_response(myuser:User, message:str, attachmentPath:str, attachmentE
             myuser.state = 110
             myuser.edit_pic_editions = []
             return response_templates.flex_acoustic_message( 
-                '上傳成功', '好耶，接下來來修圖吧！', 'rqeqeeqe', temp_path_to_server_path(attachmentPath) )
+                '好耶！上傳成功', '點擊下方選項按鈕，開始修圖吧', '好耶，接下來來修圖吧！', temp_path_to_server_path(attachmentPath) )
     
     # 選擇功能
     elif myuser.state == 110:
@@ -66,10 +66,11 @@ def determine_response(myuser:User, message:str, attachmentPath:str, attachmentE
             thumb = pic_handle.createThumb(path)
             return ImageSendMessage(fileutil.temp_path_to_server_path(path), fileutil.temp_path_to_server_path(thumb))
     
-    # 調整文字位置
+    # 調整文字
     elif myuser.state == 112:
-        myuser.state = 110
-        return response_templates.flex_acoustic_message('todo','to110','d0')
+        if message == 'finish':
+            myuser.state = 110
+            return response_templates.flex_acoustic_message('請繼續修改','滿意的話就按下finish吧！','d0')
         
 
     
