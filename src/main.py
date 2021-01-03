@@ -108,8 +108,12 @@ def getalluser():
     print('===[DEBUG] Get All User===')
     s = ''
     for u in user.__userdb:
-        print(u.__dict__)
-        s += str(u.__dict__) + '\n'
+        udict = u.__dict__
+        # udict = {'a':'aa'}
+        if 'edit_pic_editions' in udict:
+            udict['edit_pic_editions'] = udict['edit_pic_editions'].__dict__
+        # print(udict)
+        s += str(udict) + '\n'
     print('=========', flush=True)
     return s
 

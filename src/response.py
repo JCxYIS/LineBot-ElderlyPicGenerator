@@ -80,18 +80,26 @@ def determine_response(myuser:User, message:str, attachmentPath:str, attachmentE
     elif myuser.state == 112:
         if message == 'done':
             myuser.state = 110
-            return response_templates.flex_acoustic_message('繼續修改！','滿意的話就按下finish吧！','d0')            
+            return response_templates.flex_acoustic_message('繼續修改！','滿意的話就按下finish吧！','d0') 
+
         elif message == 'move':
             myuser.state = 113
             return response_templates.flex_acoustic_message('輸入你要移動的方向與距離',
-                '(現在位置：' + 
+                '(現在：' + 
                 str(myuser.edit_pic_editions[ myuser.edit_pic_editingIndex ].posx) + ' '+
                 str(myuser.edit_pic_editions[ myuser.edit_pic_editingIndex ].posy) + 
-                ') 格式：{up/down/left/right} {move_distance}', '0')            
+                ') 格式：{up/down/left/right} {move_distance}', '0')      
+
         elif message == 'color':
             myuser.state = 114
             return response_templates.flex_acoustic_message('輸入你要更換的顏色',
-                '格式：{red/green/blue/...} or {enter rgba color (如：255 153 166 255)}', '0')            
+                '(現在：' + 
+                str(myuser.edit_pic_editions[ myuser.edit_pic_editingIndex ].colorr) + ' '+
+                str(myuser.edit_pic_editions[ myuser.edit_pic_editingIndex ].colorg) + ' '+ 
+                str(myuser.edit_pic_editions[ myuser.edit_pic_editingIndex ].colorb) + ' '+
+                str(myuser.edit_pic_editions[ myuser.edit_pic_editingIndex ].colora) + 
+                ') 格式：{red/green/blue/...} or {enter rgba color (如：255 153 166 255)}', '0') 
+
         elif message == 'size':
             myuser.state = 115
             return response_templates.flex_acoustic_message('輸入你要變更的大小',
@@ -99,13 +107,22 @@ def determine_response(myuser:User, message:str, attachmentPath:str, attachmentE
                 str(myuser.edit_pic_editions[ myuser.edit_pic_editingIndex ].size) + 
                 ') 格式：{數字}', '0')            
     
-    # 移動文字的方向與距離
+    # 移動文字的方向與距離 TODO
     elif myuser.state == 113:
         return TextSendMessage('todo');
 
-    # 更換文字的顏色
+    # 更換文字的顏色 TODO
     elif myuser.state == 114:
-        return TextSendMessage('todo');
+        colorArr = message.split(' ')        
+        if len(colorArr) != 4:
+            return TextSendMessage('你必須輸入四個小於255的數字！');
+        try:
+            myuser.edit_pic_editions[ myuser.edit_pic_editingIndex ].colorr = int(colorArr[0]) % 255
+            myuser.edit_pic_editions[ myuser.edit_pic_editingIndex ].colorg = int(colorArr[1]) % 255
+            myuser.edit_pic_editions[ myuser.edit_pic_editingIndex ].colorb = int(colorArr[2]) % 255
+            myuser.edit_pic_editions[ myuser.edit_pic_editingIndex ].colora = int(colorArr[3]) % 255
+        except ValueError:
+            return TextSendMessage('你必須輸入四個小於255的數字...');
 
     # 文字的大小
     elif myuser.state == 115:        
