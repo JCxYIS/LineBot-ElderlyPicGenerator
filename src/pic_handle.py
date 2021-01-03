@@ -30,7 +30,7 @@ def pic_handle(pic_abspath:str, actions:list):
             draw = ImageDraw.Draw(resultImg)
 
             draw.text( 
-                xy= ( action.posx, action.posy ), 
+                xy= ( resultImg.width*action.posx/100.0, resultImg.height*action.posy/100.0 ), 
                 text= action.text, 
                 fill=(action.colorr, action.colorg, action.colorb, action.colora), 
                 font= myFont, 

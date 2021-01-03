@@ -78,9 +78,16 @@ def determine_response(myuser:User, message:str, attachmentPath:str, attachmentE
     
     # 調整{文字}的rich menu
     elif myuser.state == 112:
+
         if message == 'done':
             myuser.state = 110
             return response_templates.flex_acoustic_message('繼續修改！','滿意的話就按下finish吧！','d0') 
+
+        elif message == 'remove':
+            myuser.edit_pic_editions.remove( myuser.edit_pic_editingIndex )
+            myuser.state = 110
+            return response_templates.flex_acoustic_message('不滿意退貨','已刪除這個圖層...','d0') 
+
 
         elif message == 'move':
             myuser.state = 113
@@ -113,8 +120,8 @@ def determine_response(myuser:User, message:str, attachmentPath:str, attachmentE
         if len(numArr) != 2:
             return TextSendMessage('你必須輸入 2 個 0 ~ 100 的數字！');
         try:
-            myuser.edit_pic_editions[ myuser.edit_pic_editingIndex ].posx = abs( int(numArr[0]) % 100 )
-            myuser.edit_pic_editions[ myuser.edit_pic_editingIndex ].posy = abs( int(numArr[1]) % 100 )
+            myuser.edit_pic_editions[ myuser.edit_pic_editingIndex ].posx =  float(numArr[0]) % 150 
+            myuser.edit_pic_editions[ myuser.edit_pic_editingIndex ].posy =  float(numArr[1]) % 150 
             myuser.state = 112
             return handle_Pic_and_reply(myuser)
         except ValueError:
@@ -124,25 +131,25 @@ def determine_response(myuser:User, message:str, attachmentPath:str, attachmentE
     elif myuser.state == 114:
         colorArr = message.split(' ')        
         if len(colorArr) != 4:
-            return TextSendMessage('你必須輸入四個 0 ~ 255 的數字！');
+            return TextSendMessage('你必須輸入四個 0 ~ 255 的整數！');
         try:
-            myuser.edit_pic_editions[ myuser.edit_pic_editingIndex ].colorr = abs( int(colorArr[0]) % 255 )
-            myuser.edit_pic_editions[ myuser.edit_pic_editingIndex ].colorg = abs( int(colorArr[1]) % 255 )
-            myuser.edit_pic_editions[ myuser.edit_pic_editingIndex ].colorb = abs( int(colorArr[2]) % 255 )
-            myuser.edit_pic_editions[ myuser.edit_pic_editingIndex ].colora = abs( int(colorArr[3]) % 255 )
+            myuser.edit_pic_editions[ myuser.edit_pic_editingIndex ].colorr = abs( int(colorArr[0]) % 256 )
+            myuser.edit_pic_editions[ myuser.edit_pic_editingIndex ].colorg = abs( int(colorArr[1]) % 256 )
+            myuser.edit_pic_editions[ myuser.edit_pic_editingIndex ].colorb = abs( int(colorArr[2]) % 256 )
+            myuser.edit_pic_editions[ myuser.edit_pic_editingIndex ].colora = abs( int(colorArr[3]) % 256 )
             myuser.state = 112
             return handle_Pic_and_reply(myuser)
         except ValueError:
-            return TextSendMessage('你必須輸入四個 0 ~ 255 的數字...');
+            return TextSendMessage('你必須輸入四個 0 ~ 255 的整數...');
 
     # 文字的大小
     elif myuser.state == 115:        
         try:
-            myuser.edit_pic_editions[ myuser.edit_pic_editingIndex ].size = abs ( int(message) % 48763 )
+            myuser.edit_pic_editions[ myuser.edit_pic_editingIndex ].size = abs ( int(message) % 48764 )
             myuser.state = 112
             return handle_Pic_and_reply(myuser)
         except ValueError:            
-            return TextSendMessage('你必須輸入 1 個 0 ~ 48763 的數字...');
+            return TextSendMessage('你必須輸入 1 個 0 ~ 48763 的整數...');
     
     # 調整指定某一層 TODO
     elif myuser.case == 121:
