@@ -167,7 +167,7 @@ def onMessage(event):
     elif msg_message == 'checkstate':
         message = TextSendMessage(text='你的狀態碼：'+str(myuser.state)+' \nUID：'+str(myuser.uid))
 
-    elif msg_message == 'tmpeep': #TODO when demo, remove this
+    elif msg_message == 'tmpeep': #FIXME when demo, remove this
         # upload rich menu ppic, before this, register ruch menu first
         with open( os.path.join(fileutil.dir_resp, 'richmenu_state110', '1.jpg') , 'rb') as f:
             linebot_api.set_rich_menu_image('richmenu-f044828aaa74c00b3267ca23d3373743', 'image/jpeg', f)

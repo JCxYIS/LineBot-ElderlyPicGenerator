@@ -66,11 +66,24 @@ def determine_response(myuser:User, message:str, attachmentPath:str, attachmentE
             thumb = pic_handle.createThumb(path)
             return ImageSendMessage(fileutil.temp_path_to_server_path(path), fileutil.temp_path_to_server_path(thumb))
     
-    # 調整文字
+    # 調整文字的rich menu
     elif myuser.state == 112:
         if message == 'finish':
             myuser.state = 110
-            return response_templates.flex_acoustic_message('請繼續修改','滿意的話就按下finish吧！','d0')
+            return response_templates.flex_acoustic_message('繼續修改！','滿意的話就按下finish吧！','d0')            
+        elif message == 'move':
+            myuser.state = 113
+            return response_templates.flex_acoustic_message('輸入你要移動的方向與距離',
+                '(現在位置：' + str('') + ') 格式：up/down/left/right move_distance', '0')            
+        elif message == 'color':
+            myuser.state = 114
+            return response_templates.flex_acoustic_message('輸入你要更換的顏色',
+                '(現在：' + str('') + ') 格式：red/green/blue/... or #(hex color)', '0')            
+        elif message == 'size':
+            myuser.state = 115
+            return response_templates.flex_acoustic_message('輸入你要變更的大小',
+                '(現在：' + str('') + ') 格式：數字', '0')            
+        
         
 
     
