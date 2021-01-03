@@ -8,7 +8,7 @@ import time
 ######################################################
 
 
-def pic_handle(pic_abspath:str, actions:[PicEdition]) :
+def pic_handle(pic_abspath:str, actions:list):
     """
     修圖，最終把圖片儲存在temp，並回傳(絕對)路徑\\
     """
@@ -73,6 +73,20 @@ def createThumb(pic_absPath):
 
 
 
+
+# main classes ------------------------------------------------------------------------
+
+class PicEdition:
+    """
+    每一筆圖片修改的操作。不要從基底創建東西！ \\
+    action: 看有什麼更改圖片的操作，如：'AddText', 'AddFilter' (注意首字大寫) \\
+    """
+    def __init__(self, operation:str):
+        super().__init__()
+        self.operation = operation
+        # self.param = parameters
+
+
 # PicEditionAction classes ------------------------------------------------------------------------
 
 class PicEdition_AddText(PicEdition):
@@ -91,16 +105,3 @@ class PicEdition_AddFilter(PicEdition):
     def __init__(self, filterName:str):
         super().__init__('AddFilter')
         self.filterName = filterName
-
-
-# main classes ------------------------------------------------------------------------
-
-class PicEdition:
-    """
-    每一筆圖片修改的操作。不要從基底創建東西！ \\
-    action: 看有什麼更改圖片的操作，如：'AddText', 'AddFilter' (注意首字大寫) \\
-    """
-    def __init__(self, operation:str):
-        super().__init__()
-        self.operation = operation
-        # self.param = parameters

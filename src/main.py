@@ -107,7 +107,7 @@ def getalluser():
     """
     print('===[DEBUG] Get All User===')
     s = ''
-    for u in user.userdb:
+    for u in user.__userdb:
         print(u.__dict__)
         s += str(u.__dict__) + '\n'
     print('=========', flush=True)

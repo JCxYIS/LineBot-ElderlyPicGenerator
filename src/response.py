@@ -127,7 +127,7 @@ def determine_response(myuser:User, message:str, attachmentPath:str, attachmentE
 
 # -----------------------------------------------------------------------------------------------------------------
 
-def handle_Pic_and_reply(myuser: user):
+def handle_Pic_and_reply(myuser:User):
     """
     進行修圖，並把結果利用ImageSendMessage丟回使用者
     """
