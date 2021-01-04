@@ -58,9 +58,19 @@ def determine_response(myuser:User, message:str, attachmentPath:str, attachmentE
         if message == 'addText':   
             myuser.state = 111
             return response_templates.flex_acoustic_message('輸入文字', '給我你要添加的文字', '新文字編輯')
-        elif message == 'editLayer': # TODO
+
+        elif message == 'addFilter': #TODO ????
             myuser.state = 121
-            return response_templates.flex_acoustic_message('輸入想編輯的層數', '你想更改下面哪一圖層呢？', 'haha8')
+            if len(myuser.edit_pic_editions) == 0:
+                return TextSendMessage('目前沒有圖層，沒啥好改的...')
+            else:
+                replyStr = '你想更改以下哪一圖層呢？\n'
+                for i in range(0, len(myuser.edit_pic_editions)):
+                    replyStr += '第'+i+'層：'+str(myuser.edit_pic_editions[i]) + '\n';
+                replyStr = '\n輸入想編輯的層數。 (格式：數字)'
+
+            return TextSendMessage(replyStr)
+
         elif message == 'finish': 
             myuser.state = 0
             return response_templates.flex_acoustic_message('完成', '感謝使用長輩圖生成器！', '！')            
@@ -161,10 +171,26 @@ def determine_response(myuser:User, message:str, attachmentPath:str, attachmentE
         else:            
             return TextSendMessage('你必須輸入要更改的文字...');
     
-    # 調整指定某一層 TODO
+    # 調整指定某一層 
     elif myuser.case == 121:
         myuser.state = 110
-        return TextSendMessage('todo')
+        try:
+            index = int(message)            
+            if index >= len(myuser.edit_pic_editions) or index < 0:
+                return response_templates.flex_acoustic_message('太多了會壞掉', '你輸入的index怪怪的')
+
+            if isinstance(myuser.edit_pic_editions[index], pic_handle.PicEdition_AddText):
+                myuser.edit_pic_editingIndex = index
+                myuser.state = 112
+                return response_templates.flex_acoustic_message('繼續編輯吧', '繼續加油！')                
+            elif isinstance(myuser.edit_pic_editions[index], pic_handle.PicEdition_AddFilter):
+                myuser.edit_pic_editions.remove(index)
+                return TextSendMessage('先幫你刪掉這個濾鏡了，要的話再加')
+            else:
+                return response_templates.flex_acoustic_message('ㄅ欠', '目前無法變更此圖層...')                
+
+        except ValueError:
+            return response_templates.flex_acoustic_message('？？？', '我要的是數字餒')
 
     # default fallback
     return generate_response_from_directories('default')

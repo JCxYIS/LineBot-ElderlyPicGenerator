@@ -101,6 +101,9 @@ class PicEdition_AddText(PicEdition):
         self.colorb = colorb
         self.colora = colora
 
+    def __str__(self):
+        return '文字編輯：'+str(self.text)+' at ('+str(self.posx)+', '+str(self.posy)
+
 class PicEdition_AddFilter(PicEdition):
     def __init__(self, filterName:str):
         super().__init__('AddFilter')
