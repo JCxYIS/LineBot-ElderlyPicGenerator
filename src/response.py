@@ -2,8 +2,9 @@ from fileutil import dir_resp, temp_path_to_server_path
 from linebot.models import *
 import response_templates
 
-import os
 from user import User
+
+import os
 import json
 import pic_handle
 import fileutil
@@ -150,6 +151,15 @@ def determine_response(myuser:User, message:str, attachmentPath:str, attachmentE
             return handle_Pic_and_reply(myuser)
         except ValueError:            
             return TextSendMessage('你必須輸入 1 個 0 ~ 48763 的整數...');
+    
+    # 文字的敘述
+    elif myuser.state == 116:        
+        if message:
+            myuser.edit_pic_editions[ myuser.edit_pic_editingIndex ].text = message
+            myuser.state = 112
+            return handle_Pic_and_reply(myuser)
+        else:            
+            return TextSendMessage('你必須輸入要更改的文字...');
     
     # 調整指定某一層 TODO
     elif myuser.case == 121:

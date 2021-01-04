@@ -23,7 +23,7 @@ from flask.helpers import send_from_directory
 
 # ###################################################################################
 
-
+version = 'v.210104.66'
 
 # ###################################################################################
 
@@ -174,6 +174,9 @@ def onMessage(event):
 
     elif msg_message == 'checkstate':
         message = TextSendMessage(text='你的狀態碼：'+str(myuser.state)+' \nUID：'+str(myuser.uid))
+
+    elif msg_message == 'version':
+        message = TextSendMessage(text='LineBot-ElderlyPicGenerator '+str(version))
 
     elif msg_message == 'tmpeep': #FIXME when demo, remove this
         # upload rich menu ppic, before this, register ruch menu first
