@@ -23,7 +23,7 @@ from flask.helpers import send_from_directory
 
 # ###################################################################################
 
-version = 'v.210104.66'
+version = 'v.210104.69'
 
 # ###################################################################################
 
@@ -178,10 +178,15 @@ def onMessage(event):
     elif msg_message == 'version':
         message = TextSendMessage(text='LineBot-ElderlyPicGenerator '+str(version))
 
-    elif msg_message == 'tmpeep': #FIXME when demo, remove this
+    elif msg_message == 'tmpeep110': #FIXME when demo, remove this
         # upload rich menu ppic, before this, register ruch menu first
-        with open( os.path.join(fileutil.dir_resp, 'richmenu_state110', '1.jpg') , 'rb') as f:
-            linebot_api.set_rich_menu_image('richmenu-f044828aaa74c00b3267ca23d3373743', 'image/jpeg', f)
+        with open( os.path.join(fileutil.dir_resp, 'richmenu_state110', 'v2.jpg') , 'rb') as f:
+            linebot_api.set_rich_menu_image('richmenu-87d4b4dbe02db04127c03ca06f5b9ba7', 'image/jpeg', f)
+        message = TextSendMessage(text='ok')
+    elif msg_message == 'tmpeep112': #FIXME when demo, remove this
+        # upload rich menu ppic, before this, register ruch menu first
+        with open( os.path.join(fileutil.dir_resp, 'richmenu_state112', 'v2.jpg') , 'rb') as f:
+            linebot_api.set_rich_menu_image('richmenu-063fc5e646c13b50d27811df86d7c647', 'image/jpeg', f)
         message = TextSendMessage(text='ok')
 
     else:

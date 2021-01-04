@@ -84,7 +84,7 @@ def determine_response(myuser:User, message:str, attachmentPath:str, attachmentE
             myuser.state = 110
             return response_templates.flex_acoustic_message('繼續修改！','滿意的話就按下finish吧！','d0') 
 
-        elif message == 'remove':
+        elif message == 'delete':
             myuser.edit_pic_editions.remove( myuser.edit_pic_editingIndex )
             myuser.state = 110
             return response_templates.flex_acoustic_message('不滿意退貨','已刪除這個圖層...','d0') 
@@ -191,11 +191,11 @@ def determine_attach_rich_menus(myuser:User):
     """
 
     if myuser.state == 110:
-        return 'richmenu-f044828aaa74c00b3267ca23d3373743'
+        return 'richmenu-87d4b4dbe02db04127c03ca06f5b9ba7'
 
     # 調整文字位置
     elif myuser.state == 112:
-        return 'richmenu-95adfde2e2fe64784441903bfb09fe2a'
+        return 'richmenu-063fc5e646c13b50d27811df86d7c647'
 
     else:
         return ''
