@@ -14,7 +14,7 @@ def flex_acoustic_message(msg:str, submsg:str, subsubmsg:str, bgUrl:str=''):
       'https://github.com/JCxYIS/LineBot-ElderlyPicGenerator/raw/main/samplepics/366327.jpg',
       'https://github.com/JCxYIS/LineBot-ElderlyPicGenerator/raw/main/samplepics/366328.jpg',
       'https://github.com/JCxYIS/LineBot-ElderlyPicGenerator/raw/main/samplepics/366329.jpg']
-    bgurl = random.choice(bgs)
+    bgUrl = random.choice(bgs)
 
   content = {
                 "type": "bubble",
