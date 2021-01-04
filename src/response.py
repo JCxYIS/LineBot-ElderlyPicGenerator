@@ -176,7 +176,7 @@ def determine_response(myuser:User, message:str, attachmentPath:str, attachmentE
             return TextSendMessage('你必須輸入要更改的文字...');
     
     # 調整指定某一層 
-    elif myuser.case == 121:
+    elif myuser.state == 121:
         myuser.state = 110
         try:
             index = int(message)            
