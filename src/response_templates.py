@@ -1,4 +1,5 @@
 from linebot.models import *
+import random
 
 def flex_acoustic_message(msg:str, submsg:str, subsubmsg:str, bgUrl:str=''):
   """
@@ -6,8 +7,14 @@ def flex_acoustic_message(msg:str, submsg:str, subsubmsg:str, bgUrl:str=''):
   如果沒有bgurl，會隨機產生長輩愛用bg
   """
   if not bgUrl:
-    # TODO
-    bgUrl = 'https://github.com/JCxYIS/LineBot-ElderlyPicGenerator/raw/main/samplepics/366329.jpg'
+    bgs = [
+      'https://github.com/JCxYIS/LineBot-ElderlyPicGenerator/raw/main/samplepics/366321.jpg',
+      'https://github.com/JCxYIS/LineBot-ElderlyPicGenerator/raw/main/samplepics/366325.jpg',
+      'https://github.com/JCxYIS/LineBot-ElderlyPicGenerator/raw/main/samplepics/366326.jpg',
+      'https://github.com/JCxYIS/LineBot-ElderlyPicGenerator/raw/main/samplepics/366327.jpg',
+      'https://github.com/JCxYIS/LineBot-ElderlyPicGenerator/raw/main/samplepics/366328.jpg',
+      'https://github.com/JCxYIS/LineBot-ElderlyPicGenerator/raw/main/samplepics/366329.jpg']
+    bgurl = random.choice(bgs)
 
   content = {
                 "type": "bubble",
