@@ -61,14 +61,16 @@ def determine_response(myuser:User, message:str, attachmentPath:str, attachmentE
             myuser.state = 111
             return response_templates.flex_acoustic_message('輸入文字', '給我你要添加的文字', '新文字編輯')
 
-        elif message == 'addFilter': #TODO ????
+        #TODO addFilter
+
+        elif message == '動作 2':  #TODO => editlayer
             myuser.state = 121
             if len(myuser.edit_pic_editions) == 0:
                 return TextSendMessage('目前沒有圖層，沒啥好改的...')
             else:
                 replyStr = '你想更改以下哪一圖層呢？\n'
                 for i in range(0, len(myuser.edit_pic_editions)):
-                    replyStr += '第'+i+'層：'+str(myuser.edit_pic_editions[i]) + '\n';
+                    replyStr += '第'+str(i)+'層：'+str(myuser.edit_pic_editions[i]) + '\n'
                 replyStr = '\n輸入想編輯的層數。 (格式：數字)'
 
             return TextSendMessage(replyStr)

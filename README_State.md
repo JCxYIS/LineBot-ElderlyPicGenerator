@@ -16,7 +16,7 @@
 - `110`：選擇功能 (QuickReply：添加文字/效果/完成)
     - addText -> 111
     - //TODO addFilter
-    - edit layer -> 121
+    - editlayer -> 121
     - finish -> 0  //TODO? 150
 - `111`：輸入文字
     - (有文字) -> 112
