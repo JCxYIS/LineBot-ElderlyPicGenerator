@@ -1,0 +1,47 @@
+{
+  "size": {
+    "width": 2500,
+    "height": 1686
+  },
+  "selected": true,
+  "name": "richmenu_state110_v2",
+  "chatBarText": "選擇功能！",
+  "areas": [
+    {
+      "bounds": {
+        "x": 0,
+        "y": 0,
+        "width": 818,
+        "height": 1686
+      },
+      "action": {
+        "type": "message",
+        "text": "addText"
+      }
+    },
+    {
+      "bounds": {
+        "x": 839,
+        "y": 0,
+        "width": 830,
+        "height": 1686
+      },
+      "action": {
+        "type": "message",
+        "text": "動作 2"
+      }
+    },
+    {
+      "bounds": {
+        "x": 1678,
+        "y": 0,
+        "width": 809,
+        "height": 1677
+      },
+      "action": {
+        "type": "message",
+        "text": "finish"
+      }
+    }
+  ]
+}

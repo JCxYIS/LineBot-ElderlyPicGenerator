@@ -1,0 +1,83 @@
+{
+  "size": {
+    "width": 2500,
+    "height": 1686
+  },
+  "selected": true,
+  "name": "richmenu_state112_v2",
+  "chatBarText": "文字編輯功能表",
+  "areas": [
+    {
+      "bounds": {
+        "x": 0,
+        "y": 0,
+        "width": 839,
+        "height": 831
+      },
+      "action": {
+        "type": "message",
+        "text": "move"
+      }
+    },
+    {
+      "bounds": {
+        "x": 842,
+        "y": 0,
+        "width": 815,
+        "height": 835
+      },
+      "action": {
+        "type": "message",
+        "text": "color"
+      }
+    },
+    {
+      "bounds": {
+        "x": 1674,
+        "y": 0,
+        "width": 822,
+        "height": 834
+      },
+      "action": {
+        "type": "message",
+        "text": "size"
+      }
+    },
+    {
+      "bounds": {
+        "x": 1674,
+        "y": 843,
+        "width": 826,
+        "height": 843
+      },
+      "action": {
+        "type": "message",
+        "text": "done"
+      }
+    },
+    {
+      "bounds": {
+        "x": 839,
+        "y": 852,
+        "width": 822,
+        "height": 834
+      },
+      "action": {
+        "type": "message",
+        "text": "delete"
+      }
+    },
+    {
+      "bounds": {
+        "x": 0,
+        "y": 847,
+        "width": 823,
+        "height": 839
+      },
+      "action": {
+        "type": "message",
+        "text": "text"
+      }
+    }
+  ]
+}
