@@ -36,10 +36,12 @@ def determine_response(myuser:User, message:str, attachmentPath:str, attachmentE
     elif myuser.state == 100:
         if message == 'goupload':
             myuser.state = 101
-            return response_templates.flex_acoustic_message('開始上傳', '來給我你要修圖的圖片', 'a')       
+            return response_templates.flex_acoustic_message('開始上傳', '來給我你要修圖的圖片', 'a')
+        elif message == 'retry':    
+            return response_templates.img_cor_select_pic() 
+        # TODO selected pic        
         else:
             return response_templates.flex_acoustic_message('很抱歉', '目前圖片範本暫不開放使用，需等待貧果審核通過', 'a')       
-        # TODO selected pic 
     
     # 上傳圖片
     elif myuser.state == 101:

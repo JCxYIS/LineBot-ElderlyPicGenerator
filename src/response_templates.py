@@ -118,91 +118,48 @@ def flex_acoustic_message(msg:str, submsg:str, subsubmsg:str, bgUrl:str=''):
 
 
 def img_cor_select_pic():
+  urls = ["https://github.com/JCxYIS/LineBot-ElderlyPicGenerator/raw/main/samplepics/366321.jpg",
+          "https://github.com/JCxYIS/LineBot-ElderlyPicGenerator/raw/main/samplepics/366325.jpg",
+          "https://github.com/JCxYIS/LineBot-ElderlyPicGenerator/raw/main/samplepics/366326.jpg",
+          "https://github.com/JCxYIS/LineBot-ElderlyPicGenerator/raw/main/samplepics/366327.jpg",
+          "https://github.com/JCxYIS/LineBot-ElderlyPicGenerator/raw/main/samplepics/366328.jpg",
+          "https://github.com/JCxYIS/LineBot-ElderlyPicGenerator/raw/main/samplepics/366329.jpg"]
+
+
   content = {
-            "type": "image_carousel",
-            "columns": [
-              {
-                "imageUrl": "https://github.com/JCxYIS/LineBot-ElderlyPicGenerator/raw/main/samplepics/366321.jpg",
-                "action": {
-                  "type": "message",
-                  "label": "上傳你自己的圖片！",
-                  "text": "goupload"
+              "type": "image_carousel",
+              "columns": [
+                {
+                  "imageUrl": "https://github.com/JCxYIS/LineBot-ElderlyPicGenerator/raw/main/samplepics/366321.jpg",
+                  "action": {
+                    "type": "message",
+                    "label": "上傳你自己的圖片！",
+                    "text": "goupload"
+                  }
                 }
-              },
-              {
-                "imageUrl": "https://github.com/JCxYIS/LineBot-ElderlyPicGenerator/raw/main/samplepics/366325.jpg",
-                "action": {
-                  "type": "postback",
-                  "label": "就決定是你了!",
-                  "text": "pic_2",
-                  "data": "pic_3JPG"
-                }
-              },
-              {
-                "imageUrl": "https://github.com/JCxYIS/LineBot-ElderlyPicGenerator/raw/main/samplepics/366326.jpg",
-                "action": {
-                  "type": "postback",
-                  "label": "就決定是你了!",
-                  "text": "pic_3",
-                  "data": "pic_3"
-                }
-              },
-              {
-                "imageUrl": "https://storage.googleapis.com/kirito-1585904519813.appspot.com/avatars/oberon3.webp",
-                "action": {
-                  "type": "message",
-                  "label": "就決定是你了!",
-                  "text": "動作 4"
-                }
-              },
-              {
-                "imageUrl": "https://storage.googleapis.com/kirito-1585904519813.appspot.com/avatars/oberon3.webp",
-                "action": {
-                  "type": "message",
-                  "label": "就決定是你了!",
-                  "text": "動作 5"
-                }
-              },
-              {
-                "imageUrl": "https://storage.googleapis.com/kirito-1585904519813.appspot.com/avatars/oberon3.webp",
-                "action": {
-                  "type": "message",
-                  "label": "就決定是你了!",
-                  "text": "動作 6"
-                }
-              },
-              {
-                "imageUrl": "https://storage.googleapis.com/kirito-1585904519813.appspot.com/avatars/oberon3.webp",
-                "action": {
-                  "type": "message",
-                  "label": "就決定是你了!",
-                  "text": "動作 7"
-                }
-              },
-              {
-                "imageUrl": "https://storage.googleapis.com/kirito-1585904519813.appspot.com/avatars/oberon3.webp",
-                "action": {
-                  "type": "message",
-                  "label": "就決定是你了!",
-                  "text": "動作 8"
-                }
-              },
-              {
-                "imageUrl": "https://storage.googleapis.com/kirito-1585904519813.appspot.com/avatars/oberon3.webp",
-                "action": {
-                  "type": "message",
-                  "label": "就決定是你了!",
-                  "text": "動作 9"
-                }
-              },
-              {
-                "imageUrl": "https://github.com/JCxYIS/LineBot-ElderlyPicGenerator/raw/main/samplepics/366329.jpg",
-                "action": {
-                  "type": "message",
-                  "label": "找不到想要的圖？下一頁！",
-                  "text": "動作 10"
-                }
-              }
-            ]
+              ]
+            }
+
+
+  tmp = {    
+          "imageUrl": "AAAAAAAAAAAAAAAAAAAAAAAAAA",
+          "action": 
+          {
+            "type": "message",
+            "label": "就決定是你了",
+            "text": "AAAAAAAAAAAAAAAAAA"
           }
-  return TemplateSendMessage(alt_text='選擇功能(去用智會手ㄐ啦)', template=content)
+        }
+
+  for url in urls:
+    tmp['imageUrl'] = url
+    tmp['text'] = url
+    content['columns'].append(tmp)
+  
+  
+  tmp['imageUrl'] = 'https://images.pexels.com/photos/1142950/pexels-photo-1142950.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260'
+  tmp['label'] = '找不到適合的圖片？重試一次！'
+  tmp['text'] = 'retry'
+  content['columns'].append(tmp)
+
+  return TemplateSendMessage(alt_text='你有選圖訊息', template=content)
