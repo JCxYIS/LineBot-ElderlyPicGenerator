@@ -85,7 +85,7 @@ def determine_response(myuser:User, message:str, attachmentPath:str, attachmentE
             myuser.state = 112
             
             # 加user edit_pic狀態
-            newEdition = pic_handle.PicEdition_AddText(message, 50, 50, 50, 255, 255, 255, 255)      
+            newEdition = pic_handle.PicEdition_AddText(message, 50, 50, 100, 255, 255, 255, 255)      
             myuser.edit_pic_editions.append(newEdition) 
             myuser.edit_pic_editingIndex = len(myuser.edit_pic_editions) - 1         
 
@@ -145,17 +145,17 @@ def determine_response(myuser:User, message:str, attachmentPath:str, attachmentE
     # 更換文字的顏色 
     elif myuser.state == 114:
         colorArr = message.split(' ')        
-        if len(colorArr) != 4:
-            return TextSendMessage('你必須輸入四個 0 ~ 255 的整數！');
+        if len(colorArr) != 3:
+            return TextSendMessage('你必須輸入 3 個 0 ~ 255 的整數！');
         try:
             myuser.edit_pic_editions[ myuser.edit_pic_editingIndex ].colorr = abs( int(colorArr[0]) % 256 )
             myuser.edit_pic_editions[ myuser.edit_pic_editingIndex ].colorg = abs( int(colorArr[1]) % 256 )
             myuser.edit_pic_editions[ myuser.edit_pic_editingIndex ].colorb = abs( int(colorArr[2]) % 256 )
-            myuser.edit_pic_editions[ myuser.edit_pic_editingIndex ].colora = abs( int(colorArr[3]) % 256 )
+            myuser.edit_pic_editions[ myuser.edit_pic_editingIndex ].colora = 255 #abs( int(colorArr[3]) % 256 )
             myuser.state = 112
             return handle_Pic_and_reply(myuser)
         except ValueError:
-            return TextSendMessage('你必須輸入四個 0 ~ 255 的整數...');
+            return TextSendMessage('你必須輸入 3 個 0 ~ 255 的整數...');
 
     # 文字的大小
     elif myuser.state == 115:        
