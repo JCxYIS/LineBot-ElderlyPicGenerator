@@ -36,12 +36,21 @@ def determine_response(myuser:User, message:str, attachmentPath:str, attachmentE
     elif myuser.state == 100:
         if message == 'goupload':
             myuser.state = 101
-            return response_templates.flex_acoustic_message('開始上傳', '來給我你要修圖的圖片', 'a')
+            return response_templates.flex_acoustic_message('開始上傳', '給我你要的圖片(也可以直接輸入網址)', 'a')
         elif message == 'retry':    
             return response_templates.img_cor_select_pic() 
         # TODO selected pic        
-        else:
-            return response_templates.flex_acoustic_message('很抱歉', '目前圖片範本暫不開放使用，需等待貧果審核通過', 'a')       
+        elif message.startswith('https') and 'jpg' in message:
+            resurl = pic_handle.download_image(message)
+            if resurl:
+                myuser.state = 110
+                myuser.edit_pic_filepath = resurl
+                myuser.edit_pic_editions = []
+                myuser.edit_pic_editingIndex = 0
+            else:
+                return response_templates.flex_acoustic_message('不對餒', '不是個有效的圖片網址 (jpg)', 'a')
+
+            # return response_templates.flex_acoustic_message('很抱歉', '目前圖片範本暫不開放使用，需等待貧果審核通過', 'a')       
     
     # 上傳圖片
     elif myuser.state == 101:

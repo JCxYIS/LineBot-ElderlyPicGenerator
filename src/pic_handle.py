@@ -3,6 +3,8 @@ import fileutil
 from PIL import Image, ImageDraw, ImageFilter, ImageFont, JpegImagePlugin
 import os
 import time
+import tempfile
+import urllib
 
 
 ######################################################
@@ -71,7 +73,20 @@ def createThumb(pic_absPath):
     print("預覽圖已儲存！ ", picSavePath)
     return picSavePath
 
+###################################################################################
 
+def download_image(url) -> str: 
+    """
+    return url
+    """
+
+    dlpath = tempfile.NamedTemporaryFile(dir=fileutil.dir_temp, prefix='dl', delete=False) + '.jpg'
+    try:
+        urllib.request.urlretrieve(url, dlpath)
+        return dlpath
+    except:
+        return ''
+            
 
 
 # main classes ------------------------------------------------------------------------
